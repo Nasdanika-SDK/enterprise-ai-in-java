@@ -1,0 +1,149 @@
+[#evaluation]
+== Evaluation, Testing, and Optimization
+
+The fourth domain is about knowing whether the system works: what is measured, how a comparison is made, what a trace says about a failure, and what to do when the model underneath changes.
+The SDK has no evaluation framework, and this chapter does not pretend that it has one.
+What it has are three things an evaluation is built from: examples as a model, telemetry that a test can assert on, and a way to request one configuration after another.
+The roadmap adds a fourth, a place for what an evaluation produces: <<evaluation-results>>.
+
+[#skill-evaluation-coverage]
+=== Evaluation Coverage Gaps
+
+[horizontal]
+Asks:: After a failure reached production, to find which dimension of measurement, among accuracy, groundedness, latency, cost, safety and security, or which grading target was missing from the evaluation suite, and to name the metric that would have caught it before release.
+Concerns:: {c-telemetry}, {c-ownership}, {c-decisions}
+Have:: [.sketch]#SKETCH# The example nano-model: an input with its expected output is a test case, and a published set of examples is a conformance suite for whatever they describe. [.available]#AVAILABLE# Telemetry as a model, with changes to models recorded in the spans that made them.
+Missing:: [.planned]#PLANNED# An evaluation suite as a model: cases, the dimension each measures, what each grades. Inference sessions to grade.
+To show:: A suite in which each case names its dimension and its grading target, and a coverage table generated from it, dimension by target, in which an empty cell is the gap this skill asks for. For an agent that changes models, the end state is graded from the recorded changes and not from what the agent said it did, which the telemetry model makes possible.
+
+[#skill-evaluations-from-processes]
+=== Deriving Evaluations from Business Processes
+
+[horizontal]
+Asks:: To say which part of a business process is a valid evaluation for a decision it must support, a change of model, a change of prompt or a release, to derive the success criterion from the business outcome, and to choose a mix of test methods that covers what is deployed.
+Concerns:: {c-plain}, {c-what}, {c-decisions}
+Have:: [.sketch]#SKETCH# In the roadmap's target state a process is a diagram whose steps have typed inputs and outputs in Meta. The example nano-model.
+Missing:: [.planned]#PLANNED# Examples attached to the steps of a process. Documentation of a diagram generated element by element, so that the people who own a step read and correct its examples.
+To show:: A step of a drawn process with its examples attached: inputs and the outputs a good employee would produce, supplied by the owner of the step. The examples are the evaluation of that step, they are in the business's own types, and the same set is the few-shot block of the prompt and the regression suite of a release.
+
+This is the skill where {c-plain} matters most.
+A success criterion derived from a business outcome has to be agreed with the person who owns the outcome, and that person reads a glossary and a diagram, not a test class.
+
+[#skill-llm-as-judge]
+=== LLM-as-Judge Design and Bias
+
+[horizontal]
+Asks:: To judge the design of an evaluation by a model or by a rubric whose results disagree with human review, and to choose the correction for the bias responsible: position, verbosity, self-preference, or drift of the judge.
+Concerns:: {c-decisions}, {c-ownership}
+Have:: Before the SDK: decision analysis with several experts and pairwise comparisons, which is the shape of a calibration: a judge is one more expert whose judgments are compared with those of people. [.available]#AVAILABLE# The capability framework, by which a judge can be requested from another provider than the system under test.
+Missing:: [.planned]#PLANNED# Inference with a catalog, so that the judge's model version is pinned as data and its drift is a difference between two catalog entries. Provenance markers that say which model and which turn produced an output. An evaluation model that records a judge's verdicts beside human labels.
+To show:: A judge as a capability with its own catalog entry. A fixed set with human labels that every change to the judge is rerun on, in the build. Pairs judged in both orders, with the disagreement between orders reported as a number.
+
+The SDK contributes little that is specific here, and the section is honest about it.
+What it adds is that the judge is a governed component like any other: owned, versioned, and changed through review.
+
+[#skill-experimental-design]
+=== Experimental Design for Configuration Comparison
+
+[horizontal]
+Asks:: Within a stated budget of samples and cost, to design a comparison of two prompt or model configurations whose result can be interpreted, including how many trials each case needs to tell the effect of the configuration from the variation between runs.
+Concerns:: {c-light}, {c-decisions}, {c-change}
+Have:: [.available]#AVAILABLE# The capability framework as a way to explore a design space: request a point, run the tests, record the results, move to the next. Telemetry asserted on in tests, with one OpenTelemetry instance for each unit of work, so that the runs of two configurations do not mix. [.sketch]#SKETCH# Frames of results, and charts of them written to SVG.
+Missing:: [.planned]#PLANNED# Inference. The example nano-model's replay, which runs a loop with no provider behind it. Decision models whose judgments are measurements.
+To show:: Two configurations as two capabilities answering one requirement. A harness that runs each case several times under each, as a unit of work of its own, and writes the scores to telemetry. The variation between runs of one configuration is measured first and reported beside the difference between the two, so that the reader sees whether there is a result. The results are one frame, a chart for people and a table for an assistant: <<evaluation-results>>.
+
+The author's outline gives this skill a second use in the book itself: the thirty-nine skills as the criteria of a multi-criteria decision, with weights and comparisons that come from test results and documentation that is generated.
+
+[#skill-root-cause]
+=== Root-Cause Isolation from Logs and Traces
+
+[horizontal]
+Asks:: From the logs or traces of a failing system, to isolate the cause among a failure of the prompt, a failure of retrieval, hallucination, an error of a tool or a subagent, and a mismatch of the model, and to give the correction.
+Concerns:: {c-telemetry}, {c-assistants}
+Have:: [.available]#AVAILABLE# Telemetry as a model. Spans nest, log records live in the spans they were emitted in, changes live in the spans that made them, and references resolve, so a trace is navigated as a tree and queried as a graph. [.sketch]#SKETCH# Waypoints, whose lineage answers how an execution got where it is.
+Missing:: [.planned]#PLANNED# Inference sessions as models, in the same resource set as the traces. Live telemetry and replay over a diagram.
+To show:: A failed run loaded as a model, and the first wrong step found by a query: the retrieval span whose results do not hold the claim that the answer makes, or the tool span with an error under a confident answer. The runtime's book says of agents that reviewing an agent's work means reading its trace. Here the trace is something a program, or an assistant, reads too.
+
+The five causes of the skill differ by where in the tree the first wrong thing is, and a tree that is a model can be asked.
+
+[#skill-cost-latency]
+=== Cost and Latency Optimization
+
+[horizontal]
+Asks:: From telemetry of cost and latency, including the rate of cache hits, to find where spend or latency is concentrated, and to name the optimization that reduces it without going below a stated floor of quality.
+Concerns:: {c-telemetry}, {c-decisions}, {c-light}
+Have:: [.available]#AVAILABLE# Telemetry as a model, with metrics beside traces. A launcher that gives each run its own telemetry and saves it. [.sketch]#SKETCH# Frames of results, and charts of them written to SVG, with reference lines, and a scatter whose points take size, shade and border from columns.
+Missing:: [.planned]#PLANNED# Token counts, cache counters and cost on the spans of model calls. Reactive compute graphs, whose first use is cost rolled up along the dependencies of a model. Bindings with cost as an attribute.
+To show:: Cost rolled up a recorded run by step and by model, and the cache hit rate computed from it, with no backend. The quality floor is an assertion in the same test as the optimization, so a change that saves money and breaks the floor does not pass. The candidates on a cost-benefit chart, with the floor as a reference line: <<evaluation-results>>.
+
+[#skill-model-migration]
+=== Model Version Migration
+
+[horizontal]
+Asks:: From a model's deprecation timeline and the regression results of a candidate version, to judge readiness to migrate and to choose a response, pinning, re-tuning prompts, re-baselining evaluations or deferring, that manages the change in behavior within the timeline.
+Concerns:: {c-change}, {c-ownership}, {c-decisions}
+Have:: [.available]#AVAILABLE# The capability framework: a component that requests its language model, and does not construct one, can be given another one, a recorded one in a test, or none. [.sketch]#SKETCH# Occupancy, by which something holds at some times and not at others, so that a model planned for next year and a model retired last year are in one catalog, read at different dates.
+Missing:: [.planned]#PLANNED# The inference catalog, in which "when it retires" is a field. Portable sessions: a session saved with one provider and continued with another, which the roadmap names as the first demonstration of inference.
+To show:: A catalog in which the retirement date of the model in use fails the build some weeks ahead. A migration as a change to one catalog entry, with the evaluation run on both versions in the same build and the difference published as a decision record. Sessions recorded on the old version replayed on the new.
+
+The roadmap's phrase for the underlying idea is a provider "chosen by a requirement rather than by name".
+A system that names its model in code migrates by editing code. A system that states a requirement migrates by changing what answers it.
+
+[#evaluation-results]
+=== What an Evaluation Produces
+
+This section is not a skill of the blueprint.
+Several skills of this domain end in the same thing, a set of results, and the roadmap gives it a home.
+
+An evaluation produces rows: a case, a run or a configuration, with a value for each thing measured.
+In the roadmap's document nano-model, [.sketch]#SKETCH#, that is a frame: named columns of equal length, as a data frame of pandas is.
+A frame is a model element, so its documentation can say where the numbers came from: which suite, which run, which date.
+And it is saved as any model is, as XMI, JSON or YAML, chosen by the extension of the file, which is [.available]#AVAILABLE# in the runtime.
+
+One frame has several readers, and the enterprise nano-model's formats say what each of them gets.
+
+[cols="2,4,2",options="header"]
+|===
+|Reader |Gets |Standing
+
+|A person reading a report
+|A chart or a table in a document. A table and a chart can refer to one frame, so they show the same numbers.
+|Frames and SVG charts [.sketch]#SKETCH#
+
+|An assistant in a conversation
+|The frame as a Markdown table, with the chart's alternative text, which says in words what the chart shows.
+|[.planned]#PLANNED#
+
+|An agent with files
+|The frame as JSON, when it was saved as JSON.
+|Frames [.sketch]#SKETCH#, JSON [.available]#AVAILABLE#
+
+|An agent with a question
+|A query over the frame and over the run that produced it, in XPath or Cypher.
+|[.planned]#PLANNED#
+|===
+
+An agent is not sent a picture of a chart.
+It is sent the numbers, and the words that say what the picture would have shown.
+
+==== A Cost-Benefit Chart
+
+One chart of interest is a scatter of configurations: a model, a prompt, a retrieval setting, each of them a point.
+Cost goes along x, and value, benefit or fitness, whatever the evaluation computes, goes up y.
+A point that another point beats on both, cheaper and at least as good, can leave the discussion, and what is left is the set of candidates.
+A floor of quality is a reference line across the chart, and a point under it is out whatever it costs.
+
+An evaluation rarely has one goal.
+With more, each point carries the others:
+
+* Value up y and cost along x, since position is what a reader compares most easily, and the two goals that matter most belong on the axes.
+* A third goal, such as latency or coverage, as the size of the point, drawn by area and not by radius.
+* Risk as the shade of one color, darker for more, with a legend. Red, amber and green keep their meaning as status.
+* A property that is yes or no, such as a result from too few runs to trust, as the border of the point.
+
+The chart shows a trade-off and does not make it.
+Choosing a point is a decision with criteria and weights that people own, and it belongs in a decision record: <<skill-value-based-decisions>>.
+
+[horizontal]
+Have:: [.sketch]#SKETCH# The scatter of the chart nano-model, with x and y from columns of a frame, and size, shade and border from more columns, written to SVG with a legend for each. The roadmap book draws this chart as its example.
+Missing:: [.planned]#PLANNED# A writer of Markdown tables for charts. The encodings in writers other than SVG.

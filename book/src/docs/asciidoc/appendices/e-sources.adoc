@@ -1,0 +1,42 @@
+[appendix]
+[#sources]
+== Sources
+
+Everything this edition was written from.
+
+=== The blueprint
+
+* Anthropic, _Claude Certified Architect, Professional: Exam Guide_, version 1.1, effective December 7, 2026. Section 5 of it is the content outline: seven domains and thirty-nine skills. {exam-guide}
+* The certifications page of the Anthropic Partner Academy, where the current exam guides are linked. {certifications}
+
+The exam guide is Anthropic's, and it is the authority on what each skill says.
+This book names the domains and the skills as the guide names them and describes each in its own words.
+
+=== Anthropic's public writing
+
+Drawn on for the vocabulary of the first three domains, from the drafting assistant's knowledge of them and not from a fresh reading for this edition.
+
+* "Building effective agents", for the patterns: augmented LLM, workflow, agent.
+* "Introducing Contextual Retrieval", for the retrieval skill.
+* "Effective context engineering for AI agents", and the documentation of the Claude Developer Platform, for the second domain.
+* The Model Context Protocol specification, at modelcontextprotocol.io.
+
+=== The Nasdanika SDK
+
+* Pavel Vlasov, _Nasdanika SDK Runtime_, edition {runtime-version}. {runtime-site}, and on Leanpub at {sdk-book}. Source at {runtime-repo}.
+* Pavel Vlasov, _Nasdanika SDK Roadmap: What Comes Next, and How to Take Part_, edition {runtime-version}. {roadmap-site}. Source at {roadmap-repo}.
+* The Nasdanika enterprise model. {enterprise-model}
+* The architecture repository template, with its sample architecture of an AI assistant. {architecture-template}
+
+=== The other ways
+
+Named in <<other-ways>>, and not read closely for this edition.
+
+* LangChain4j. https://docs.langchain4j.dev
+* Spring AI. https://spring.io/projects/spring-ai
+
+=== Standards behind the vocabulary
+
+* ISO/IEC/IEEE 42010, _Software, systems and enterprise: Architecture description_, for stakeholder, concern, view and viewpoint.
+* The TOGAF Standard, for the same vocabulary in an enterprise architecture.
+* OpenTelemetry, for traces, logs and metrics, and its semantic conventions for generative AI, which were still changing when this edition was written.

@@ -1,0 +1,71 @@
+[#models-prompting-context]
+== Claude Models, Prompting, and Context Engineering
+
+The second domain is about the model itself: which tier, what it is told, what is in its context, and what that costs.
+Its skills are the most specific to one provider's features, and the least about architecture in the sense of boxes and lines.
+The SDK's part in them is narrower than elsewhere and comes down to two ideas: a prompt and a context are assembled from typed, owned parts, and every call is recorded as a model that can be read afterwards.
+
+[#skill-model-tier]
+=== Model Tier Selection
+
+[horizontal]
+Asks:: To choose the model tier that meets every binding constraint on latency, cost and quality for a stated workload, and to say why each alternative fails.
+Concerns:: {c-decisions}, {c-change}, {c-light}
+Have:: [.available]#AVAILABLE# The capability framework, in which a provider carries information about what it provides, so that a caller chooses between providers without subscribing to them.
+Missing:: [.planned]#PLANNED# The inference catalog, with cost and retirement date for each model. Model choice by requirement. Bindings with cost and response time as attributes.
+To show:: A requirement that states the limits, such as a latency at a percentile and a cost for each task, and a resolution that returns the tiers that meet them, with the reason each of the others was declined. The capability loader can already explain, line by line, which factories were asked about a requirement and which declined, and here that explanation is the second half of the skill.
+
+[#skill-system-prompt-diagnosis]
+=== System Prompt Diagnosis and Revision
+
+[horizontal]
+Asks:: To find what a system prompt leaves unsaid that makes output degraded or inconsistent, and to choose the revision that constrains scope, format and behavior without ruling out legitimate variation.
+Concerns:: {c-ownership}, {c-what}, {c-assistants}
+Have:: [.available]#AVAILABLE# Documentation as structure in the core model: sections, formats, owners, and markers that say where a piece of text came from. [.sketch]#SKETCH# The example nano-model.
+Missing:: [.planned]#PLANNED# A prompt as a model of parts: role, scope, format, behavior when unsure, examples. Each part with an owner, and a session that records which version of each part produced an output.
+To show:: A prompt assembled from parts, a set of examples of the degraded output attached to the part that caused it, and a revision as a change to one part, reviewed as a difference. Whether the revision over-constrains is then a test: the examples of legitimate variation still pass.
+
+[#skill-prompting-technique]
+=== Prompting Technique Selection
+
+[horizontal]
+Asks:: To apply the technique that answers an observed failure, among zero-shot, few-shot, reasoning asked for in the prompt or done natively by the model, and structured output, for a task of stated complexity and without needless token cost.
+Concerns:: {c-what}, {c-plain}, {c-ownership}
+Have:: [.available]#AVAILABLE# Meta, a type system with a text syntax and a validator. Its planned projections include JSON Schema, "for validation and for the tool schemas of agents". [.sketch]#SKETCH# The example nano-model, whose examples are at once a few-shot prompt, test cases and a replay.
+Missing:: [.planned]#PLANNED# The JSON Schema projection of Meta. The tool model's presentation half, in which native tool calling and a prompt with examples are two conventions for one definition.
+To show:: Structured output whose schema is projected from a vocabulary that a subject-matter expert reviewed as a glossary. The same examples used as the few-shot block and as the tests. One definition presented two ways, natively and as a prompt with examples, with the token cost of each read from the recorded session.
+
+The author's outline for this book puts structured input and output first among the SDK's contributions: a schema that comes from Meta has an owner and generated documentation, and over time variation by place and time through occupancy.
+
+[#skill-token-economics]
+=== Context Composition and Token Economics
+
+[horizontal]
+Asks:: To analyze what a context is made of and how caching behaves, against a token budget and a call volume, and to find where tokens can be saved without losing information the task needs.
+Concerns:: {c-telemetry}, {c-light}, {c-decisions}
+Have:: [.available]#AVAILABLE# Telemetry as a model: a run's spans and their attributes are loaded and navigated, and compared between two runs.
+Missing:: [.planned]#PLANNED# The session half of the inference model, with token counts and latency for each call. Attributes that follow the OpenTelemetry semantic conventions for generative AI, which are still changing.
+To show:: A recorded session rolled up by part of the context: tools, system prompt, documents, history, input. Multiplied by a call volume it is the table this skill asks for. Because the session is a model and not a dashboard, the roll-up runs on a laptop, in a test, with no backend.
+
+[#skill-cache-breakpoints]
+=== Cache Breakpoints and Reusable Packaging
+
+[horizontal]
+Asks:: To place cache breakpoints, and to package prompts as modules or Skills, for a repeated sequence of prompts, so that stable content comes before dynamic content and reuse is as high as the call pattern allows.
+Concerns:: {c-what}, {c-ownership}, {c-assistants}
+Have:: [.available]#AVAILABLE# An agent skill in the runtime's own repository, `nasdanika-meta`, with a workflow, tested examples and a starter project. It is the SDK's one released example of packaging procedural knowledge for an assistant.
+Missing:: [.planned]#PLANNED# A context as an ordered model of parts, each marked as stable or dynamic, from which the request is assembled, so that the order is a property that is checked and not a habit. Provider modules that place breakpoints from those marks.
+To show:: A context model in which a dynamic part before a stable one is a validation error. The cache counters of two consecutive recorded sessions, asserted in a test.
+
+[#skill-reasoning-context-lifecycle]
+=== Reasoning Effort and Context Lifecycle
+
+[horizontal]
+Asks:: For an agent that runs for a long time, to allot reasoning effort and to choose a strategy for the life of its context, among clearing stale content, a memory outside the context, and summarizing, that keeps it performing for the length of the session within stated latency and accuracy.
+Concerns:: {c-bounds}, {c-telemetry}, {c-local}
+Have:: [.sketch]#SKETCH# Waypoints: what an execution carries is state, held outside any one call, with a history. The roadmap's ladder for where an agent keeps its state, from memory through a saved resource to a commit pushed to a remote, in which the choice is of a root waypoint and not of code.
+Missing:: [.planned]#PLANNED# Inference. State in Git. Queries over models, so that an agent reads the part of its state it needs and does not carry all of it.
+To show:: A long task whose durable state is a model and not the conversation: decisions, progress and exact facts are in a resource the agent queries, and the conversation can be cleared or summarized without losing them. This is the memory strategy of the skill, with the memory typed, versioned and reviewable.
+
+The roadmap's North Star is this skill seen from the other side: agents on bounded, typed models with state saved to Git.
+An agent whose memory is a model in a repository does not depend on its context window for what must stay exact.

@@ -1,0 +1,172 @@
+[appendix]
+[#capabilities]
+== Capabilities
+
+Every capability of the Nasdanika SDK that this book names, with its standing as of runtime {runtime-version} and the roadmap of November 2026, and where it is described.
+The two books named in the last column are the authority. If this table and one of them disagree, the book is right and this table is stale.
+
+[.available]#AVAILABLE# is in the released runtime.
+[.sketch]#SKETCH# has code in the roadmap repository, built and tested.
+[.planned]#PLANNED# is designed or intended, and not built on the SDK.
+
+=== Released
+
+[cols="2,4,2",options="header"]
+|===
+|Capability |In one line |Described in
+
+|Capability framework
+|Requirements interpreted by factories, resolved as a graph, with an explanation of what was asked and who declined
+|Runtime book, "The capability framework"
+
+|Telemetry
+|Every module reports through the OpenTelemetry API. One instance for each unit of work. Published as it happens.
+|Runtime book, "Telemetry in the runtime", "Watching work live"
+
+|Telemetry model
+|Traces, logs and metrics as models. Changes recorded in the spans that made them.
+|Runtime book, "Telemetry as a model"
+
+|Core model
+|Identity, documentation as structure, markers of provenance
+|Runtime book, "The core model"
+
+|Meta
+|A type system with a text syntax, a validator, a glossary and an agent skill
+|Runtime book, "Meta: a language-neutral type system"
+
+|Diagrams
+|Draw.io as an API and a model, a common diagram model, layout
+|Runtime book, "Diagrams"
+
+|Volumes
+|A file system interface, served over HTTP and WebDAV
+|Runtime book, "Volumes and content"
+
+|Flows
+|`Flow` with a pump and a transformer
+|Runtime book, "Flows, pumps and transformations"
+
+|Commands and the launcher
+|Commands as capabilities, telemetry saved for each run, a trace continued from the environment
+|Runtime book, "Commands as capabilities", "Distributions and launching"
+
+|JVM model
+|What a Java virtual machine can name
+|Runtime book, "The JVM model"
+|===
+
+=== Sketched
+
+[cols="2,4,2",options="header"]
+|===
+|Capability |In one line |Described in
+
+|Waypoints
+|The history of an execution: lineage, state, realms, spans
+|Roadmap book, "Waypoints"
+
+|Bindings
+|Values read now and followed as they change
+|Roadmap book, "Bindings"
+
+|Enterprise nano-model
+|Stakeholders, concerns, viewpoints, formats, channels
+|Roadmap book, "Core Nano-models"
+
+|Change nano-model
+|A write as data
+|Roadmap book, "Core Nano-models"
+
+|Example nano-model
+|Examples as prompts, tests and replays
+|Roadmap book, "Core Nano-models"
+
+|Kind and occupancy nano-models
+|Catalogs that configure, and what holds where and when
+|Roadmap book, "Core Nano-models"
+
+|Widgets and Markdown views
+|Views written once, rendered for people and for assistants
+|Roadmap book, "Widgets"
+
+|Document and chart nano-models
+|Frames of data that tables and charts share, and charts written to SVG, with scatters whose points carry more than two goals
+|Roadmap book, "Core Nano-models"
+|===
+
+=== Planned
+
+[cols="2,4,2",options="header"]
+|===
+|Capability |In one line |Described in
+
+|Inference
+|A catalog of providers and models, and sessions as a record. Providers over the JDK's HTTP client.
+|Roadmap book, "Runtime Models"
+
+|Tool model
+|What can be called, with presentation apart from invocation
+|Roadmap book, "Runtime Models"
+
+|MCP
+|Server and client on a JSON-RPC core, as models, with tools resolved as capabilities
+|Roadmap book, "The Target State", "Designed and Waiting"
+
+|Agentic systems as components
+|Drawn, documented, owned, approved, and obtained as a capability
+|Roadmap book, "The Target State"
+
+|Bindings that provide capabilities
+|A model, a cache or a search as a binding with cost, response time and availability
+|Roadmap book, "Bindings"
+
+|XPath and Cypher for models
+|Query surfaces for assistants and agents
+|Roadmap book, "Runtime Models"
+
+|The change model as the command
+|Agents read with queries and write with changes that are reviewed
+|Roadmap book, "Designed and Waiting"
+
+|State in Git, and a commit as an escalation
+|Durable history, rollback, and a pause that waits for a person
+|Roadmap book, "Waypoints"
+
+|Decision analysis and decision binding
+|Decisions with criteria, alternatives and judgments, tied to what they decide
+|Roadmap book, "The Model Tower"
+
+|Role, IAM, seal and lifecycle nano-models
+|Ownership, access, signatures and stages
+|Roadmap book, "Core Nano-models"
+
+|Reactive compute graphs
+|Cost rolled up and risk carried along the dependencies of a model
+|Roadmap book, "Designed and Waiting"
+
+|Generated documentation, and stubs
+|References of metamodels and diagrams, element by element
+|Roadmap book, "The Target State"
+
+|Sanitizer for telemetry
+|Values masked or replaced before they are logged
+|Roadmap book, "Designed and Waiting"
+
+|Live telemetry, and status on diagrams
+|Spans as they happen, in a browser, and on the diagram that was designed
+|Roadmap book, "Designed and Waiting"
+
+|Charts for assistants
+|Charts as Markdown tables, with the alternative text
+|Roadmap book, "Core Nano-models"
+
+|JSON Schema projection of Meta
+|Schemas for validation and for the tools of agents
+|Runtime book, "Meta: a language-neutral type system"
+|===
+
+=== Not in the SDK
+
+Named in this book as ideas of its own, with no item in the roadmap yet: a prompt as a model of parts, a context as an ordered model of parts, an evaluation suite as a model, and a retrieval module with in-memory search.
+Each appears under "Missing" or "To show" in its section, and each would need an item in the roadmap before it is more than that.

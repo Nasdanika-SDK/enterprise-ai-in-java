@@ -1,0 +1,109 @@
+[preface]
+[#preface]
+== Preface
+
+I am preparing for an exam for architects of AI systems.
+Its blueprint is a list of seven domains and thirty-nine skills, and it is a good list: it says, one decision at a time, what an architect of such a system has to be able to judge.
+Which steps of a process go to a model and which stay with a person.
+Where a system fails first under load.
+Which retrieval architecture fits a body of documents.
+What a retry does to a payment.
+Which control evidences an obligation.
+
+Reading it, I kept asking the same question of each line: how would I do this in Java, with what I have built?
+
+This book is that question, asked thirty-nine times.
+
+=== What it is
+
+It is a lens.
+It looks at the Nasdanika SDK, what is released, what is sketched and what is planned, from the point of view of someone who designs AI systems on the Java platform, and it uses the blueprint as the order in which to look.
+
+<<a-view-for-the-ai-architect>> says the same with more care, in the vocabulary of the Nasdanika enterprise model: the book is a view of two semantic domains, AI architecture and the Nasdanika SDK, that addresses the concerns of one stakeholder, the AI architect.
+
+I wrote it for myself and for AI assistants first.
+For myself, because working out how a skill is done on my own platform is how I learn the skill.
+For assistants, because an assistant that has read this book can help build what it describes with fewer wrong guesses.
+If it is useful to another architect in a Java shop, I will be glad of it.
+
+[#preface-what-before-how]
+=== What before how
+
+There are two exams in the program I am preparing for, and the difference between them is the premise of this book.
+The first asks how to build with a model. The second asks what to build.
+
+The architect may still build, and has to know how.
+But what comes first, and it is a different hat.
+
+With models, the what stops being a document that someone reads before writing the code.
+A vocabulary in Meta, a diagram that executes, a tool described as data, a decision with its criteria and judgments: each is a software artifact.
+It is run directly, or code is generated from it, or at the least what runs can be traced back to it.
+An AI assistant grounded in the documentation generated from those artifacts builds the rest.
+So a good deal of the what becomes the how, and that is the thing this book tries to show.
+<<enterprise>> has more on it.
+
+=== How to read it
+
+<<part-the-view>> is short and is meant to be read.
+<<part-the-domains>> is a reference: go to the skill you care about.
+<<blueprint-map>> lists every skill with its section and the capabilities it draws on.
+
+Each section of <<part-the-domains>> has the same five lines.
+
+Asks:: What the skill asks of an architect, in this book's words.
+Concerns:: Which concerns of <<a-view-for-the-ai-architect>> it meets.
+Have:: What the SDK holds for it today.
+Missing:: What is between that and doing it.
+To show:: What a demonstration in this book would be, when the section has code.
+
+=== How real it is
+
+The book uses the three labels of the SDK's own books, for two things.
+
+On a capability of the SDK:
+
+* [.available]#AVAILABLE#: in the released runtime, {runtime-version}. The {sdk-book}[SDK book] describes it.
+* [.sketch]#SKETCH#: there is code in the {roadmap-repo}[roadmap repository], built and tested, and it is not settled.
+* [.planned]#PLANNED#: designed, or only intended, and not built.
+
+On a section of this book:
+
+* [.sketch]#SKETCH#: the section says how a thing would be done. It has no code of its own.
+* [.available]#AVAILABLE#: the section has working code in this repository, compiled and tested when the book is built, and its listings are regions of that code.
+
+*Every section of this edition is a sketch.*
+The book starts as a vision and no more than that.
+Sections become available one at a time, as the capabilities they need are released and as I get to them, and <<revisions>> records each.
+Much of what the domains ask for stands on planned capabilities: inference, the tool model, MCP.
+Where that is so the section says so, and it is the most common word under "Missing".
+
+=== What it does not do
+
+It does not teach the exam.
+The exam guide and Anthropic's own course do that.
+
+It does not compare products.
+LangChain4j and Spring AI are the established ways to build AI applications in Java, and a great deal is built in Python.
+<<other-ways>> says how this book's approach differs from theirs, and leaves the comparison to the reader.
+
+It does not claim that the Nasdanika SDK is the way to do any of this.
+It is my way, it is one person's work, and much of it is not built.
+
+[NOTE]
+.A baseline
+====
+This edition was drafted by an AI assistant from public sources, before my own preparation went into it.
+The <<colophon,colophon>> lists the sources.
+I keep it as the baseline: what could be written about these domains from what Nasdanika and Anthropic had already published.
+What later editions add is what I learned and built.
+====
+
+ifdef::editor-notes[]
+[IMPORTANT,caption="Editor's note"]
+====
+Editor's notes such as this one mark what is known to need a decision or a check.
+They are shown in working builds and left out of published editions.
+
+The first person in this preface is the assistant's draft of the author's voice, from his outline. He has not edited it.
+====
+endif::[]

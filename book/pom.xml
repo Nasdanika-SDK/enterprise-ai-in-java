@@ -1,0 +1,306 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.nasdanika.sdk.enterpriseai</groupId>
+		<artifactId>parent</artifactId>
+		<version>2026.11.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>book</artifactId>
+	<packaging>pom</packaging>
+	<name>Enterprise AI in Java, Objective by Objective: Book</name>
+	<description>
+		The book in AsciiDoc, rendered to PDF, EPUB and a single HTML page, and the site that GitHub
+		Pages serves.
+
+		Render:            mvn verify                     (from the repository root)
+		Without notes:     -Dbook.editor-notes=false      (hides the editor's notes, for publishing)
+		Skip rendering:    -Dasciidoctor.skip=true
+
+		Output:  target/book/enterprise-ai-in-java-VERSION.{pdf,epub,html}
+		         target/site/{index.html,enterprise-ai-in-java.pdf,enterprise-ai-in-java.epub}
+	</description>
+
+	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+		<book.name>enterprise-ai-in-java-${project.version}</book.name>
+		<book.editor-notes>true</book.editor-notes>
+		<!-- The manuscript is rendered from a copy, so that the generated cover sits beside it as an image -->
+		<manuscript.dir>${project.build.directory}/manuscript</manuscript.dir>
+		<!-- The Zephyr look for the HTML, unpacked from the runtime release -->
+		<nasdanika.doc.dir>${project.build.directory}/nasdanika</nasdanika.doc.dir>
+		<!-- What GitHub Pages serves, and the names the book prints for its other formats -->
+		<site.dir>${project.build.directory}/site</site.dir>
+		<site.pdf>enterprise-ai-in-java.pdf</site.pdf>
+		<site.epub>enterprise-ai-in-java.epub</site.epub>
+		<!-- Not made by this build: the workflow zips the checkout and adds it to the site under this name -->
+		<site.sources>enterprise-ai-in-java-sources.zip</site.sources>
+		<!--
+			Where GitHub Pages serves the site. With a custom domain, change this to it and add
+			<echo file="${site.dir}/CNAME" message="the domain"/> to the "site" execution below.
+		-->
+		<site.url>https://nasdanika-sdk.github.io/enterprise-ai-in-java</site.url>
+		<asciidoctor.skip>false</asciidoctor.skip>
+		<asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
+		<asciidoctorj.version>3.0.1</asciidoctorj.version>
+		<asciidoctorj.pdf.version>2.3.27</asciidoctorj.pdf.version>
+		<asciidoctorj.epub3.version>2.2.0</asciidoctorj.epub3.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- The look of the runtime's books -->
+						<id>unpack-nasdanika-doc</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<skip>${asciidoctor.skip}</skip>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.nasdanika.sdk.runtime.doc</groupId>
+									<artifactId>zephyr</artifactId>
+									<version>${nasdanika.runtime.version}</version>
+								</artifactItem>
+							</artifactItems>
+							<excludes>META-INF/**</excludes>
+							<outputDirectory>${nasdanika.doc.dir}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- The jar the cover generator reads its fonts from -->
+						<id>copy-fonts</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<skip>${asciidoctor.skip}</skip>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.asciidoctor</groupId>
+									<artifactId>asciidoctorj-pdf</artifactId>
+									<version>${asciidoctorj.pdf.version}</version>
+									<destFileName>asciidoctorj-pdf.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/cover</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- The manuscript, copied to where it is rendered, and the stylesheet of the HTML -->
+						<id>manuscript</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<skip>${asciidoctor.skip}</skip>
+							<target>
+								<copy todir="${manuscript.dir}">
+									<fileset dir="${project.basedir}/src/docs/asciidoc"/>
+								</copy>
+								<concat destfile="${project.build.directory}/zephyr/book.css" encoding="UTF-8" outputencoding="UTF-8" fixlastline="yes">
+									<filelist dir="${nasdanika.doc.dir}/zephyr/css" files="bootstrap.min.css,zephyr-logo.css,zephyr-bridge.css"/>
+									<filelist dir="${project.basedir}/src/docs/css" files="book.css"/>
+								</concat>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- What GitHub Pages serves: the HTML as index.html, and the PDF and the EPUB under names that stay the same -->
+						<id>site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<skip>${asciidoctor.skip}</skip>
+							<target>
+								<copy file="${project.build.directory}/book/${book.name}.html" tofile="${site.dir}/index.html"/>
+								<copy file="${project.build.directory}/book/${book.name}.pdf" tofile="${site.dir}/${site.pdf}"/>
+								<copy file="${project.build.directory}/book/${book.name}.epub" tofile="${site.dir}/${site.epub}"/>
+								<!-- Tells GitHub Pages not to run Jekyll over the files -->
+								<touch file="${site.dir}/.nojekyll"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- The cover, drawn with the JDK that runs Maven -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>cover</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<skip>${asciidoctor.skip}</skip>
+							<executable>${java.home}/bin/java</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>-Djava.awt.headless=true</argument>
+								<argument>src/cover/Cover.java</argument>
+								<argument>${project.build.directory}/cover/asciidoctorj-pdf.jar</argument>
+								<argument>src/docs/asciidoc/images/nasdanika-sdk-logo.jpg</argument>
+								<argument>${manuscript.dir}/images/cover.png</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>${asciidoctor.maven.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj</artifactId>
+						<version>${asciidoctorj.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj-pdf</artifactId>
+						<version>${asciidoctorj.pdf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj-epub3</artifactId>
+						<version>${asciidoctorj.epub3.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sourceDirectory>${manuscript.dir}</sourceDirectory>
+					<sourceDocumentName>book.adoc</sourceDocumentName>
+					<outputDirectory>${project.build.directory}/book</outputDirectory>
+					<doctype>book</doctype>
+					<!-- A missing tag, a broken cross-reference or a missing image fails the build -->
+					<logHandler>
+						<outputToConsole>true</outputToConsole>
+						<failIf>
+							<severity>WARN</severity>
+						</failIf>
+					</logHandler>
+					<attributes>
+						<revnumber>${project.version}</revnumber>
+						<revdate>${maven.build.timestamp}</revdate>
+						<runtime-version>${nasdanika.runtime.version}</runtime-version>
+						<book-root>${book.root}</book-root>
+						<editor-notes>${book.editor-notes}</editor-notes>
+						<site-url>${site.url}</site-url>
+						<pdf-url>${site.url}/${site.pdf}</pdf-url>
+						<epub-url>${site.url}/${site.epub}</epub-url>
+						<sources-url>${site.url}/${site.sources}</sources-url>
+						<book-repo>${project.scm.url}</book-repo>
+						<source-highlighter>rouge</source-highlighter>
+						<sectanchors>true</sectanchors>
+						<idprefix />
+						<idseparator>-</idseparator>
+						<xrefstyle>short</xrefstyle>
+						<experimental>true</experimental>
+						<imagesdir>images</imagesdir>
+					</attributes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>pdf</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>pdf</backend>
+							<outputFile>${book.name}.pdf</outputFile>
+							<attributes>
+								<pdf-themesdir>${project.basedir}/src/docs/themes</pdf-themesdir>
+								<pdf-theme>nasdanika</pdf-theme>
+								<icons>font</icons>
+							</attributes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>epub</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>epub3</backend>
+							<outputFile>${book.name}.epub</outputFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>html</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html5</backend>
+							<outputFile>${book.name}.html</outputFile>
+							<attributes>
+								<!-- A single file in the Zephyr look: the stylesheet and every image embedded, nothing from a CDN -->
+								<stylesdir>${project.build.directory}/zephyr</stylesdir>
+								<stylesheet>book.css</stylesheet>
+								<toc>left</toc>
+								<toclevels>3</toclevels>
+								<data-uri>true</data-uri>
+							</attributes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-book</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<skipAttach>${asciidoctor.skip}</skipAttach>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/book/${book.name}.pdf</file>
+									<type>pdf</type>
+									<classifier>book</classifier>
+								</artifact>
+								<artifact>
+									<file>${project.build.directory}/book/${book.name}.epub</file>
+									<type>epub</type>
+									<classifier>book</classifier>
+								</artifact>
+								<artifact>
+									<file>${project.build.directory}/book/${book.name}.html</file>
+									<type>html</type>
+									<classifier>book</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

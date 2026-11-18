@@ -1,0 +1,58 @@
+[appendix]
+[#building]
+== Building and Conventions
+
+=== The repository
+
+[source,text]
+----
+pom.xml                     the parent: the runtime's bill of materials, versions, the modules
+AGENTS.md                   how the repository is laid out, for AI assistants
+book/                       this book, and the site built from it
+  src/docs/asciidoc/        the manuscript: book.adoc, front, chapters, appendices, back
+  src/docs/themes/          the PDF theme
+  src/docs/css/             the addition to the HTML stylesheet
+  src/cover/                the cover, drawn by a Java program
+.github/workflows/          the build that publishes the site, and the one that publishes to Maven
+----
+
+Modules with code join the parent as sections move from sketch to available.
+A module then has the layout of a runtime module: `pom.xml`, `src/main/java` with a `module-info.java`, and `src/test/java`, and it depends on the runtime through the runtime's bill of materials, with no versions of its own.
+
+=== Building
+
+Java 25 and Maven 3.9 are needed.
+From the root:
+
+[source,text]
+----
+mvn verify                                  everything
+mvn verify -Dasciidoctor.skip=true          everything but the book
+mvn verify -Dbook.editor-notes=false        the book without editor's notes, as published
+----
+
+The book is written to `book/target/book` as a PDF, an EPUB and one HTML file, and the site to `book/target/site`.
+A warning from Asciidoctor fails the build: a broken cross-reference, a missing image, and later a missing tag in a listing.
+The look of the HTML comes from the runtime's release, from Maven Central.
+
+=== Publishing
+
+Two workflows run on GitHub.
+
+The first builds the book on every push and pull request, and on a push to `main` publishes `book/target/site` to GitHub Pages, with a zip of the sources beside it.
+
+The second publishes to GitHub Packages as Maven artifacts: the book as `org.nasdanika.sdk.enterpriseai:book`, with the PDF, the EPUB and the HTML attached under the classifier `book`.
+While the version in `pom.xml` ends in `-SNAPSHOT` it publishes on every push to `main`.
+A release version is published once, when a release is created on GitHub.
+Nothing goes to Maven Central.
+
+=== Conventions
+
+* Prose is plain, in the first person where the author speaks, with no em or en dashes.
+* One sentence to a line in the source, so that a difference shows the sentence that changed.
+* Every section of <<part-the-domains>> has an id that starts with `skill-` and names its topic, and the five lines: Asks, Concerns, Have, Missing, To show.
+* What a skill asks is said in this book's words. The exam guide is linked and not reproduced.
+* A capability is named with its standing, and the standing is that of the SDK's own books on the day of the edition. <<capabilities>> is kept with them.
+* A section becomes available when it has code in this repository that is compiled and tested with the book, and its listings are tagged regions of that code. Until then it shows no code.
+* A change of what a section says, and each move to available, gets a dated row in <<revisions>>.
+* The other ways to do a thing, in <<other-ways>>, are named and not compared.

@@ -1,0 +1,115 @@
+= Enterprise AI in Java, Objective by Objective: The AI Architect's Domains Through the Nasdanika SDK
+Pavel Vlasov
+:doctype: book
+:description: How an architect's work on AI systems is done in Java with the Nasdanika SDK, skill by skill: solution design, models and context, integration, evaluation, governance, stakeholders and team enablement.
+:keywords: Nasdanika, Java, AI architecture, enterprise AI, agents, MCP, retrieval, evaluation, governance, telemetry, OpenTelemetry, EMF, models
+:lang: en
+:sectnums:
+:sectnumlevels: 2
+:partnums:
+:chapter-signifier: Chapter
+:part-signifier: Part
+:appendix-caption: Appendix
+:toc:
+:toclevels: 2
+:title-page:
+:title-logo-image: image:nasdanika-sdk-logo.jpg[pdfwidth=1.75in,align=left]
+:front-cover-image: image:cover.png[Front cover,1500,1953]
+:listing-caption: Listing
+:figure-caption: Figure
+:table-caption: Table
+:source-language: java
+:tabsize: 4
+:hide-uri-scheme:
+:runtime-repo: https://github.com/Nasdanika-SDK/runtime
+:runtime-site: https://runtime.sdk.nasdanika.org
+:sdk-site: https://sdk.nasdanika.org
+:sdk-book: https://leanpub.com/nasdanika-sdk-runtime
+:roadmap-site: https://roadmap.sdk.nasdanika.org
+:roadmap-repo: https://github.com/Nasdanika-SDK/roadmap
+:enterprise-model: https://enterprise.models.nasdanika.org
+:architecture-template: https://nasdanika-templates.github.io/architecture-repository/
+:exam-guide: https://cc.sj-cdn.net/instructor/6nizmqk8tpzpfjvt6qmmav7rh/public/1794946420/Claude_Certified_Architect_-_Professional_Exam_Guide_Updated_Dec_7.pdf
+:certifications: https://anthropic-partners.skilljar.com/page/partner-certifications
+:medium: https://medium.com/nasdanika
+:github: https://github.com/pvlasov
+:linkedin: https://www.linkedin.com/in/pavelvlasov/
+:copyright: Copyright (C) 2026 Pavel Vlasov. Text and figures licensed under CC BY 4.0; code under EPL-2.0.
+
+// Defaults for previews in an editor; the Maven build sets these
+ifndef::book-root[:book-root: ../../../..]
+ifndef::runtime-version[:runtime-version: 2026.11.0]
+ifndef::imagesdir[:imagesdir: images]
+ifndef::site-url[:site-url: https://nasdanika-sdk.github.io/enterprise-ai-in-java]
+ifndef::pdf-url[:pdf-url: {site-url}/enterprise-ai-in-java.pdf]
+ifndef::epub-url[:epub-url: {site-url}/enterprise-ai-in-java.epub]
+ifndef::sources-url[:sources-url: {site-url}/enterprise-ai-in-java-sources.zip]
+ifndef::book-repo[:book-repo: https://github.com/Nasdanika-SDK/enterprise-ai-in-java]
+
+// The concerns of the first chapter, as links, for the Concerns line of each section
+:c-platform: <<concern-platform,one platform>>
+:c-telemetry: <<concern-telemetry,telemetry from the first line>>
+:c-light: <<concern-light,proofs without heavy infrastructure>>
+:c-plain: <<concern-plain,being understood without code>>
+:c-what: <<concern-what,a what that is an artifact>>
+:c-ownership: <<concern-ownership,ownership and evidence as data>>
+:c-decisions: <<concern-decisions,decisions that can be revisited>>
+:c-change: <<concern-change,room for change>>
+:c-bounds: <<concern-bounds,agents with bounds>>
+:c-local: <<concern-local,data that stays where it is>>
+:c-assistants: <<concern-assistants,assistants that are grounded>>
+
+include::front/colophon.adoc[]
+
+include::front/preface.adoc[]
+
+[#part-the-view]
+= The View
+
+[partintro]
+What this book is, said with the vocabulary it uses throughout: a view of two semantic domains for one stakeholder.
+Then the word "enterprise", the SDK in a few pages, and how all of it differs from the other ways to build AI systems in Java and outside it.
+
+include::chapters/01-a-view-for-the-ai-architect.adoc[]
+
+include::chapters/02-enterprise.adoc[]
+
+include::chapters/03-the-sdk-in-brief.adoc[]
+
+include::chapters/04-other-ways.adoc[]
+
+[#part-the-domains]
+= The Domains
+
+[partintro]
+Seven chapters, one for each domain of the blueprint, in its order.
+Each section is one skill: what it asks of an architect, the concerns it meets, and how it is done, or would be done, in Java with the Nasdanika SDK.
+Every section of this edition is a [.sketch]#SKETCH#.
+
+include::chapters/05-solution-design.adoc[]
+
+include::chapters/06-models-prompting-context.adoc[]
+
+include::chapters/07-integration.adoc[]
+
+include::chapters/08-evaluation.adoc[]
+
+include::chapters/09-governance.adoc[]
+
+include::chapters/10-stakeholders-lifecycle.adoc[]
+
+include::chapters/11-developer-productivity.adoc[]
+
+include::appendices/a-blueprint-map.adoc[]
+
+include::appendices/b-capabilities.adoc[]
+
+include::appendices/c-revisions.adoc[]
+
+include::appendices/d-building.adoc[]
+
+include::appendices/e-sources.adoc[]
+
+:sectnums!:
+
+include::back/about-the-author.adoc[]

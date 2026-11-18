@@ -1,0 +1,158 @@
+[#a-view-for-the-ai-architect]
+== A View for the AI Architect
+
+The {enterprise-model}[Nasdanika enterprise model] has a small vocabulary for saying who is shown what, and why.
+It comes from ISO/IEC/IEEE 42010 and TOGAF, with formats and channels added, and the SDK's books use it to explain their own design.
+This chapter uses it to say what this book is.
+
+=== The vocabulary
+
+A *stakeholder* is anyone with an interest in a system: a business owner, a risk officer, an engineer, and also an agent or a program.
+Stakeholders have *concerns*, the things they need to know or decide.
+A *view* addresses concerns.
+It is made of *representations*, such as a section, a table or a diagram, and a representation represents *semantic elements*, which belong to *semantic domains*.
+A view is available in *formats* and reaches its stakeholders over *channels*.
+
+=== This book, in that vocabulary
+
+.The book as a view
+[cols="1,3",options="header"]
+|===
+|Term |Here
+
+|Stakeholder
+|The AI architect: the person who decides what an AI system is, proves that it works, and answers for how it is governed and operated. In this book the architect works where the platform is Java.
+
+|Concerns
+|The eleven of <<the-concerns>>.
+
+|View
+|This book.
+
+|Representations
+|Its sections and tables, and later its listings and diagrams.
+
+|Semantic domains
+|Two. *AI architecture*: the decisions an architect of an AI system makes, as the blueprint of <<the-blueprint>> lists them. *The Nasdanika SDK*: its runtime, its models and its roadmap.
+
+|Semantic elements
+|In the first domain, the thirty-nine skills. In the second, the capabilities of <<capabilities>>.
+
+|Formats
+|A web page, a PDF and an EPUB for people. AsciiDoc in a Git repository for people who edit and for AI assistants.
+
+|Channels
+|GitHub Pages, a Git repository, and a Maven repository for those whose build wants the book as an artifact.
+|===
+
+A section of <<part-the-domains>> is then one representation that relates an element of the first domain to elements of the second: this skill, done with these capabilities.
+<<blueprint-map>> is the same relation as one table.
+
+There is a second stakeholder, and the vocabulary has room for it: an AI assistant that helps the architect.
+It reads the same view in another format over another channel, and it has one concern of its own, which is the last in the list below.
+
+[#the-blueprint]
+=== The first domain: a blueprint
+
+The decisions of an AI architect could be listed in many ways.
+This book takes a list that exists, is public, and was made by people who examine architects on it: the content outline of Anthropic's exam for the Claude Certified Architect, Professional certification, in version 1.1 of its exam guide.
+It has seven domains.
+
+.The seven domains
+[cols="3,1,3",options="header"]
+|===
+|Domain |Skills |Chapter
+
+|Solution Design and Architecture |6 |<<solution-design>>
+|Claude Models, Prompting, and Context Engineering |6 |<<models-prompting-context>>
+|Integration |8 |<<integration>>
+|Evaluation, Testing, and Optimization |7 |<<evaluation>>
+|Governance, Safety, and Risk Management |6 |<<governance>>
+|Stakeholder Communication and Lifecycle Management |3 |<<stakeholders-lifecycle>>
+|Developer Productivity and Operational Enablement |3 |<<developer-productivity>>
+|===
+
+The blueprint is written for one provider's models and products.
+Most of its skills are not specific to them: delegation between a model and a person, least privilege for tools, idempotency, the bias of a judge, a handoff package.
+Where a skill is specific, such as the choice between that provider's deployment surfaces, the section says what part of it is general and treats the rest briefly.
+
+[#the-concerns]
+=== The concerns
+
+The blueprint says what an architect decides.
+It does not say what worries an architect who has to decide it in a particular place.
+The concerns below are those of an architect in an organization that runs on Java, has stakeholders who do not read code, and answers to someone for what its systems do.
+They were derived for this edition from the blueprint, from the SDK's books, and from the author's outline, and they are the first thing in this book that should be argued with.
+
+[[concern-platform]]One platform::
+Can AI systems be built on the platform the organization already runs?
+A Java shop that adds a second language for AI adds a second runtime, a second build, a second route for dependencies, a second set of people, and a second path through security and operations.
+Sometimes that is right. It should be a choice and not a default.
+In this book: Java 25, modules, Maven, and a foundation of the JDK, EMF core and the OpenTelemetry API.
+
+[[concern-telemetry]]Telemetry from the first line::
+Will anyone know what the system did, what it cost, and why it answered as it did?
+For an AI system that is an architectural concern and not an afterthought: a wrong answer is a successful request, cost is counted in tokens for each call, and an agent's work is a tree of calls that has to be read to be trusted.
+A system that is instrumented later is instrumented where it was convenient.
+
+[[concern-light]]Proofs without heavy infrastructure::
+Can an idea be tried, and two alternatives compared, on a laptop in a day?
+A proof of concept that needs a cluster, a database service and an onboarding to a platform is decided by the calendar and not by the evidence.
+Fifty tool descriptions do not need a vector database to be searched by meaning.
+
+[[concern-plain]]Being understood without code::
+Can business owners, risk officers and subject-matter experts read what is proposed, correct it, and approve it?
+They judge meaning, and nobody else can.
+What they are shown has to be in their terms and has to be the thing that is built, not a slide about it.
+
+[[concern-what]]A "what" that is an artifact::
+Can the statement of what to build be executed, generated from, or at least traced to?
+A specification that is a document is correct on the day it is written.
+<<enterprise>> takes this up.
+
+[[concern-ownership]]Ownership and evidence as data::
+Who owns this tool, this prompt, this agent, this decision? Which version runs, who approved it, and what shows that a control worked?
+If the answers are in a wiki, governance is a meeting.
+If they are data, a build can refuse what has no owner.
+
+[[concern-decisions]]Decisions that can be revisited::
+Why this model, this retrieval architecture, this deployment?
+A decision whose alternatives, criteria and judgments are recorded can be looked at again when its inputs change.
+Some decisions can be made only by running the alternatives and measuring.
+
+[[concern-change]]Room for change::
+Models are retired on a schedule, prices move, a tool that ran in the process moves to a server.
+Can the system follow without being rewritten?
+What is requested by need and resolved where it is deployed can change. What is constructed by name cannot.
+
+[[concern-bounds]]Agents with bounds::
+What may an agent see, and what may it do?
+The answer should be decided by structure and not by the agent's good behavior: a bounded view of the data, tools by role, writes that are reviewed before they are applied, and a way back.
+
+[[concern-local]]Data that stays where it is::
+Can it run where the data is allowed to be, with nothing central to install?
+For a regulated organization, local models, local telemetry and local state are often the only configuration that can be approved first.
+
+[[concern-assistants]]Assistants that are grounded::
+Can an AI assistant that helps build and operate the system read what the system is?
+An assistant given files guesses at structure.
+An assistant given generated documentation, a query language and a bounded view asks.
+
+=== Reading a section against the concerns
+
+Each section of <<part-the-domains>> names the concerns it meets.
+That is the test of whether the section belongs: a skill for which the SDK offers nothing that an architect in this position would care about gets a short section that says so.
+<<blueprint-map>> has the whole relation, and it shows where the lens is sharp and where it sees little.
+
+It sees most in integration, in governance and in what is read from telemetry.
+It sees least where the blueprint is about one vendor's developer tools, and where the answer is a judgment that no software makes for the architect.
+
+ifdef::editor-notes[]
+[IMPORTANT,caption="Editor's note"]
+====
+The eleven concerns are the assistant's derivation.
+Four come from the author's outline nearly as he wrote them: a Java shop having to use another language, telemetry from the start as an architectural concern, proofs and comparisons without heavy infrastructure, and communication with non-technical stakeholders.
+The other seven are read from the target state of the roadmap book and from the principles of the runtime book.
+The names of the two semantic domains are the author's.
+====
+endif::[]

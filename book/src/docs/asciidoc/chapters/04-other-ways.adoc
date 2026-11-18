@@ -1,0 +1,117 @@
+[#other-ways]
+== LangChain4j, Spring AI, and Python
+
+A reader who builds AI systems in Java already has two good answers to "with what": LangChain4j and Spring AI.
+A reader who builds them anywhere has Python.
+This chapter says how the Nasdanika SDK, and this book, differ from them.
+
+It does not compare features, and it does not say which is better.
+What follows about the other three is from their public descriptions and is there to place this book, not to review them.
+The comparison is the reader's, for the reader's own situation.
+
+=== What they are
+
+LangChain4j::
+An open-source Java library for building applications on language models: one API over many model providers and embedding stores, services declared as interfaces, tools, memory, and retrieval-augmented generation.
+
+Spring AI::
+The Spring project for the same purpose, in Spring's idiom: portable abstractions over model providers and vector stores, a fluent client, advisors, tool calling, and integration with Spring Boot's configuration and observability.
+
+Python::
+Where most of the field's libraries, examples and new techniques appear first, and where most data science teams work.
+
+All three are mature, widely used and well documented.
+Each has far more integrations and far more users than the Nasdanika SDK, which is one person's work.
+
+=== Where the SDK starts from somewhere else
+
+They are libraries for the how.
+A developer writes code against their abstractions, and they make that code shorter and portable between providers.
+
+The SDK starts from the what.
+Its first question is not "how do I call a model" but "what is this tool, this conversation, this agent, this decision, as a thing with an owner, documentation and a version".
+The answer is a model, and code is bound to it, generated from it or driven by it.
+<<what-before-how>> is the long form of that sentence.
+
+.The same things, from two starting points
+[cols="2,3,3",options="header"]
+|===
+| |A library for the how |The SDK
+
+|A tool
+|A method with an annotation, or a function with a schema
+|An element of a tool model, with an owner and documentation. How it is presented to a language model and how it is invoked are two separate choices.
+
+|A model provider
+|A client object, configured in code or properties
+|An entry in a catalog, and a capability that is requested by requirement and resolved where the system is deployed
+
+|A conversation
+|State in memory, or in a store the library integrates
+|A model that is saved, opened, compared, kept for audit, and continued with another provider
+
+|An agentic system
+|Code
+|A diagram that is documented element by element, approved, and executed
+
+|Observability
+|Instrumentation that the framework provides for its own calls
+|Part of the foundation: every module reports through the OpenTelemetry API, and telemetry can be kept as a model beside what it describes
+
+|Dependencies
+|The library, its integrations, and often a vendor's SDK for each provider
+|The JDK, EMF core and the OpenTelemetry API. Providers over the JDK's HTTP client.
+
+|Standing
+|Released and in production in many places
+|The foundation is released. Inference, tools and agents are planned.
+|===
+
+The last row matters more than the others.
+A reader who needs to ship an AI feature in Java this quarter should use LangChain4j or Spring AI.
+What this book describes for inference, tools and agents cannot be used yet.
+
+=== What is borrowed
+
+Where the shape of an API has been worked out well by those projects, the SDK's planned inference API borrows the shape.
+A developer who knows a chat model, a message, a tool specification and a streaming response handler from them should find nothing strange in the SDK's.
+Being different where the others are already right would only cost the reader an afternoon.
+
+=== Used together
+
+The approaches are not exclusive, and nothing in the SDK's design prevents mixing them.
+
+* A tool described in the tool model can be invoked by an agent written with either library.
+* A chat model from either library can be provided as a capability, and requested by a component that does not know where it came from.
+* Telemetry from either, where it follows OpenTelemetry, lands in the same traces as the runtime's, and can be saved as the same model.
+* A vocabulary in Meta can generate the schema that a library's structured output is validated against.
+
+So the choice is not all or nothing.
+The modeled part is where ownership, documentation, approval and evidence live. The library part is whatever makes the calls.
+
+=== And Python
+
+Python is not an alternative to the SDK so much as an alternative to Java, and for many teams it is the right one.
+
+The concern this book starts from is the organization for which it is not: the platform, the skills, the build, the dependency route, the security review and the operations are all Java.
+For that organization a Python service is not a library. It is a second platform, with everything a platform brings.
+The first chapter calls that concern {c-platform}.
+
+Two things follow in this book.
+Where a small Java solution does what is usually done with a Python stack and a service, such as searching fifty descriptions by meaning in memory, the section says so.
+And where the Java answer is not there yet, the section says that too, and does not pretend.
+
+=== How to read the rest with this in mind
+
+Each section of <<part-the-domains>> says what the SDK has and what is missing.
+It does not say what LangChain4j, Spring AI or a Python library would do for the same skill.
+A reader who knows one of them will see, section by section, where it already does the job, and that is a fair way to read this book.
+
+ifdef::editor-notes[]
+[IMPORTANT,caption="Editor's note"]
+====
+Drafted by the assistant from the author's instruction: mention LangChain4j and Spring AI, say that their API shape is borrowed for inference where it helps, and avoid comparisons.
+The descriptions of the two libraries are from general knowledge of their public documentation and were not checked against their current releases for this edition.
+"Used together" states what the design allows. None of the four combinations has been tried.
+====
+endif::[]

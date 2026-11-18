@@ -1,0 +1,239 @@
+[appendix]
+[#blueprint-map]
+== The Blueprint Map
+
+The relation that this book is, as two tables.
+The first goes from the first semantic domain to the second: each skill of the blueprint, with what it leans on in the SDK.
+The second goes from the stakeholder's concerns to the skills that meet them.
+
+Both tables were made from the sections of <<part-the-domains>> for this edition, by a script, and have to be made again when a section changes. Making them in the build is planned.
+
+=== Skills and what they lean on
+
+"Planned" in the last column means that the section stands, in part, on something that is not built.
+
+.<<solution-design,Solution Design and Architecture>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-task-delegation,Task Delegation Between Claude and Humans>>
+|Diagrams as models. Planned: role nano-model, diagram documentation
+
+|<<skill-architecture-evaluation,End-to-End Architecture Evaluation>>
+|Diagrams as models, telemetry. Planned: reactive graphs
+
+|<<skill-pattern-selection,Architectural Pattern Selection>>
+|Waypoints. Planned: decision models, executable graphs
+
+|<<skill-orchestrator-decomposition,Orchestrator and Subagent Decomposition>>
+|Waypoints, telemetry model. Planned: agent model, inference
+
+|<<skill-value-based-decisions,Value-Based Architectural Decisions>>
+|Planned: decision models, capability bindings
+
+|<<skill-deployment-surface,Deployment Surface and Agent Runtime Selection>>
+|Capability framework. Planned: inference catalog and providers
+
+|===
+
+.<<models-prompting-context,Claude Models, Prompting, and Context Engineering>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-model-tier,Model Tier Selection>>
+|Capability framework. Planned: inference catalog, capability bindings
+
+|<<skill-system-prompt-diagnosis,System Prompt Diagnosis and Revision>>
+|Documentation as structure, example nano-model. Planned: prompt as a model
+
+|<<skill-prompting-technique,Prompting Technique Selection>>
+|Meta, example nano-model. Planned: JSON Schema projection, tool model
+
+|<<skill-token-economics,Context Composition and Token Economics>>
+|Telemetry model. Planned: inference sessions
+
+|<<skill-cache-breakpoints,Cache Breakpoints and Reusable Packaging>>
+|Meta agent skill. Planned: context as a model
+
+|<<skill-reasoning-context-lifecycle,Reasoning Effort and Context Lifecycle>>
+|Waypoints. Planned: state in Git, queries
+
+|===
+
+.<<integration,Integration>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-least-privilege-tools,Least-Privilege Tool Configuration>>
+|Capability framework. Planned: tool model, role nano-model
+
+|<<skill-auth-posture,Authentication and Authorization Posture>>
+|Diagrams as models. Planned: role and IAM nano-models, MCP, sanitizer
+
+|<<skill-binding-constraint,Relieving the Binding Performance Constraint>>
+|Capability framework. Planned: capability bindings, decision models
+
+|<<skill-instrumentation-gaps,Instrumentation and Monitoring Gaps>>
+|Telemetry, telemetry model, waypoints
+
+|<<skill-retrieval-architecture,Retrieval Architecture Selection>>
+|Markdown views. Planned: search as a binding, XPath, Cypher
+
+|<<skill-connection-mechanism,Connection Mechanism Selection>>
+|Capability framework. Planned: tool model, MCP
+
+|<<skill-progressive-discovery,Progressive Discovery vs. Monolithic Context Loading>>
+|Markdown views, Meta agent skill. Planned: query surfaces, semantic context
+
+|<<skill-reliability-controls,Production Reliability Controls>>
+|Telemetry model, waypoints, change nano-model. Planned: capability bindings
+
+|===
+
+.<<evaluation,Evaluation, Testing, and Optimization>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-evaluation-coverage,Evaluation Coverage Gaps>>
+|Example nano-model, telemetry model. Planned: evaluation as a model
+
+|<<skill-evaluations-from-processes,Deriving Evaluations from Business Processes>>
+|Meta, example nano-model. Planned: diagram documentation
+
+|<<skill-llm-as-judge,LLM-as-Judge Design and Bias>>
+|Capability framework. Planned: inference catalog, provenance
+
+|<<skill-experimental-design,Experimental Design for Configuration Comparison>>
+|Capability framework, telemetry, frames and charts. Planned: inference, decision models
+
+|<<skill-root-cause,Root-Cause Isolation from Logs and Traces>>
+|Telemetry model, waypoints. Planned: inference sessions
+
+|<<skill-cost-latency,Cost and Latency Optimization>>
+|Telemetry model, frames and charts. Planned: reactive graphs, capability bindings
+
+|<<skill-model-migration,Model Version Migration>>
+|Capability framework, occupancy. Planned: inference catalog, portable sessions
+
+|===
+
+.<<governance,Governance, Safety, and Risk Management>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-guardrail-placement,Guardrail Placement>>
+|Diagrams as models, capability framework. Planned: tool model
+
+|<<skill-injection-surface,Prompt Injection Surface and Controls>>
+|Provenance markers. Planned: MCP as models, change model as the command
+
+|<<skill-risk-ranking,Risk Assessment and Ranking>>
+|A small foundation. Planned: risk and control models, budgets on waypoints
+
+|<<skill-human-checkpoints,Human-in-the-Loop Checkpoints>>
+|Waypoints, change nano-model. Planned: a commit as an escalation
+
+|<<skill-compliance-controls,Architectural Controls for Compliance Obligations>>
+|Local first, telemetry model, occupancy. Planned: sanitizer, control models
+
+|<<skill-bias-source,Bias Source Identification and Mitigation>>
+|Example nano-model, provenance markers
+
+|===
+
+.<<stakeholders-lifecycle,Stakeholder Communication and Lifecycle Management>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-unsupportable-commitments,Unsupportable Commitments in Requirements and SLAs>>
+|Meta, telemetry. Planned: capability bindings, reactive graphs
+
+|<<skill-decision-records,Architecture Decision Records>>
+|Planned: decision analysis and decision binding on the SDK
+
+|<<skill-handoff-completeness,Operational Handoff Completeness>>
+|Documentation as structure. Planned: generated documentation, catalogs
+
+|===
+
+.<<developer-productivity,Developer Productivity and Operational Enablement>>
+[cols="3,4",options="header"]
+|===
+|Skill |Leans on
+
+|<<skill-packaging-workflows,Packaging and Distributing Claude Code Workflows>>
+|Meta agent skill, AGENTS.md
+
+|<<skill-agent-sdk-configuration,Agent SDK and Claude Code Configuration>>
+|One artifact everywhere, trace continuation
+
+|<<skill-accountability-ai-code,Accountability for AI-Generated Code>>
+|Provenance markers, change recording. Planned: provenance of agent output
+
+|===
+
+=== Concerns and the skills that meet them
+
+The number is how many of the 39 sections name the concern.
+
+[cols="2,1,5",options="header"]
+|===
+|Concern |Sections |Skills
+
+|<<concern-platform,One platform>>
+|4
+|<<skill-deployment-surface,Deployment Surface and Agent Runtime Selection>>, <<skill-retrieval-architecture,Retrieval Architecture Selection>>, <<skill-risk-ranking,Risk Assessment and Ranking>>, <<skill-packaging-workflows,Packaging and Distributing Claude Code Workflows>>
+
+|<<concern-telemetry,Telemetry from the first line>>
+|12
+|<<skill-architecture-evaluation,End-to-End Architecture Evaluation>>, <<skill-orchestrator-decomposition,Orchestrator and Subagent Decomposition>>, <<skill-token-economics,Context Composition and Token Economics>>, <<skill-reasoning-context-lifecycle,Reasoning Effort and Context Lifecycle>>, <<skill-instrumentation-gaps,Instrumentation and Monitoring Gaps>>, <<skill-reliability-controls,Production Reliability Controls>>, <<skill-evaluation-coverage,Evaluation Coverage Gaps>>, <<skill-root-cause,Root-Cause Isolation from Logs and Traces>>, <<skill-cost-latency,Cost and Latency Optimization>>, <<skill-compliance-controls,Architectural Controls for Compliance Obligations>>, <<skill-handoff-completeness,Operational Handoff Completeness>>, <<skill-accountability-ai-code,Accountability for AI-Generated Code>>
+
+|<<concern-light,Proofs without heavy infrastructure>>
+|8
+|<<skill-value-based-decisions,Value-Based Architectural Decisions>>, <<skill-model-tier,Model Tier Selection>>, <<skill-token-economics,Context Composition and Token Economics>>, <<skill-binding-constraint,Relieving the Binding Performance Constraint>>, <<skill-retrieval-architecture,Retrieval Architecture Selection>>, <<skill-progressive-discovery,Progressive Discovery vs. Monolithic Context Loading>>, <<skill-experimental-design,Experimental Design for Configuration Comparison>>, <<skill-cost-latency,Cost and Latency Optimization>>
+
+|<<concern-plain,Being understood without code>>
+|11
+|<<skill-task-delegation,Task Delegation Between Claude and Humans>>, <<skill-architecture-evaluation,End-to-End Architecture Evaluation>>, <<skill-value-based-decisions,Value-Based Architectural Decisions>>, <<skill-prompting-technique,Prompting Technique Selection>>, <<skill-evaluations-from-processes,Deriving Evaluations from Business Processes>>, <<skill-guardrail-placement,Guardrail Placement>>, <<skill-risk-ranking,Risk Assessment and Ranking>>, <<skill-compliance-controls,Architectural Controls for Compliance Obligations>>, <<skill-unsupportable-commitments,Unsupportable Commitments in Requirements and SLAs>>, <<skill-decision-records,Architecture Decision Records>>, <<skill-handoff-completeness,Operational Handoff Completeness>>
+
+|<<concern-what,A "what" that is an artifact>>
+|12
+|<<skill-task-delegation,Task Delegation Between Claude and Humans>>, <<skill-architecture-evaluation,End-to-End Architecture Evaluation>>, <<skill-pattern-selection,Architectural Pattern Selection>>, <<skill-system-prompt-diagnosis,System Prompt Diagnosis and Revision>>, <<skill-prompting-technique,Prompting Technique Selection>>, <<skill-cache-breakpoints,Cache Breakpoints and Reusable Packaging>>, <<skill-least-privilege-tools,Least-Privilege Tool Configuration>>, <<skill-connection-mechanism,Connection Mechanism Selection>>, <<skill-evaluations-from-processes,Deriving Evaluations from Business Processes>>, <<skill-guardrail-placement,Guardrail Placement>>, <<skill-human-checkpoints,Human-in-the-Loop Checkpoints>>, <<skill-unsupportable-commitments,Unsupportable Commitments in Requirements and SLAs>>
+
+|<<concern-ownership,Ownership and evidence as data>>
+|20
+|<<skill-task-delegation,Task Delegation Between Claude and Humans>>, <<skill-system-prompt-diagnosis,System Prompt Diagnosis and Revision>>, <<skill-prompting-technique,Prompting Technique Selection>>, <<skill-cache-breakpoints,Cache Breakpoints and Reusable Packaging>>, <<skill-least-privilege-tools,Least-Privilege Tool Configuration>>, <<skill-auth-posture,Authentication and Authorization Posture>>, <<skill-instrumentation-gaps,Instrumentation and Monitoring Gaps>>, <<skill-connection-mechanism,Connection Mechanism Selection>>, <<skill-evaluation-coverage,Evaluation Coverage Gaps>>, <<skill-llm-as-judge,LLM-as-Judge Design and Bias>>, <<skill-model-migration,Model Version Migration>>, <<skill-injection-surface,Prompt Injection Surface and Controls>>, <<skill-risk-ranking,Risk Assessment and Ranking>>, <<skill-human-checkpoints,Human-in-the-Loop Checkpoints>>, <<skill-compliance-controls,Architectural Controls for Compliance Obligations>>, <<skill-bias-source,Bias Source Identification and Mitigation>>, <<skill-decision-records,Architecture Decision Records>>, <<skill-handoff-completeness,Operational Handoff Completeness>>, <<skill-packaging-workflows,Packaging and Distributing Claude Code Workflows>>, <<skill-accountability-ai-code,Accountability for AI-Generated Code>>
+
+|<<concern-decisions,Decisions that can be revisited>>
+|16
+|<<skill-pattern-selection,Architectural Pattern Selection>>, <<skill-value-based-decisions,Value-Based Architectural Decisions>>, <<skill-deployment-surface,Deployment Surface and Agent Runtime Selection>>, <<skill-model-tier,Model Tier Selection>>, <<skill-token-economics,Context Composition and Token Economics>>, <<skill-binding-constraint,Relieving the Binding Performance Constraint>>, <<skill-evaluation-coverage,Evaluation Coverage Gaps>>, <<skill-evaluations-from-processes,Deriving Evaluations from Business Processes>>, <<skill-llm-as-judge,LLM-as-Judge Design and Bias>>, <<skill-experimental-design,Experimental Design for Configuration Comparison>>, <<skill-cost-latency,Cost and Latency Optimization>>, <<skill-model-migration,Model Version Migration>>, <<skill-risk-ranking,Risk Assessment and Ranking>>, <<skill-bias-source,Bias Source Identification and Mitigation>>, <<skill-unsupportable-commitments,Unsupportable Commitments in Requirements and SLAs>>, <<skill-decision-records,Architecture Decision Records>>
+
+|<<concern-change,Room for change>>
+|7
+|<<skill-deployment-surface,Deployment Surface and Agent Runtime Selection>>, <<skill-model-tier,Model Tier Selection>>, <<skill-binding-constraint,Relieving the Binding Performance Constraint>>, <<skill-connection-mechanism,Connection Mechanism Selection>>, <<skill-reliability-controls,Production Reliability Controls>>, <<skill-experimental-design,Experimental Design for Configuration Comparison>>, <<skill-model-migration,Model Version Migration>>
+
+|<<concern-bounds,Agents with bounds>>
+|12
+|<<skill-pattern-selection,Architectural Pattern Selection>>, <<skill-orchestrator-decomposition,Orchestrator and Subagent Decomposition>>, <<skill-reasoning-context-lifecycle,Reasoning Effort and Context Lifecycle>>, <<skill-least-privilege-tools,Least-Privilege Tool Configuration>>, <<skill-auth-posture,Authentication and Authorization Posture>>, <<skill-retrieval-architecture,Retrieval Architecture Selection>>, <<skill-progressive-discovery,Progressive Discovery vs. Monolithic Context Loading>>, <<skill-reliability-controls,Production Reliability Controls>>, <<skill-guardrail-placement,Guardrail Placement>>, <<skill-injection-surface,Prompt Injection Surface and Controls>>, <<skill-human-checkpoints,Human-in-the-Loop Checkpoints>>, <<skill-agent-sdk-configuration,Agent SDK and Claude Code Configuration>>
+
+|<<concern-local,Data that stays where it is>>
+|5
+|<<skill-deployment-surface,Deployment Surface and Agent Runtime Selection>>, <<skill-reasoning-context-lifecycle,Reasoning Effort and Context Lifecycle>>, <<skill-auth-posture,Authentication and Authorization Posture>>, <<skill-injection-surface,Prompt Injection Surface and Controls>>, <<skill-compliance-controls,Architectural Controls for Compliance Obligations>>
+
+|<<concern-assistants,Assistants that are grounded>>
+|9
+|<<skill-system-prompt-diagnosis,System Prompt Diagnosis and Revision>>, <<skill-cache-breakpoints,Cache Breakpoints and Reusable Packaging>>, <<skill-retrieval-architecture,Retrieval Architecture Selection>>, <<skill-progressive-discovery,Progressive Discovery vs. Monolithic Context Loading>>, <<skill-root-cause,Root-Cause Isolation from Logs and Traces>>, <<skill-handoff-completeness,Operational Handoff Completeness>>, <<skill-packaging-workflows,Packaging and Distributing Claude Code Workflows>>, <<skill-agent-sdk-configuration,Agent SDK and Claude Code Configuration>>, <<skill-accountability-ai-code,Accountability for AI-Generated Code>>
+
+|===
+
+Read as a whole, the second table says what kind of view this is.
+The concerns named most often are ownership and evidence as data, decisions that can be revisited and telemetry from the first line.
+The ones named least are data that stays where it is and one platform.
+One platform is named least because it is the premise of the whole book and not of any one section.
+Otherwise, a concern that few sections name is either one the blueprint does not ask about, or one this edition has not looked at hard enough, and the table does not say which.

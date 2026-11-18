@@ -1,0 +1,18 @@
+[appendix]
+[#revisions]
+== Revisions
+
+The chapters say what holds now.
+This appendix says when it came to hold, newest first.
+A section that moves from sketch to available gets an entry here, and so does a change of what a section says.
+An entry is never rewritten: a later change gets a later entry.
+
+[cols="1,5,2",options="header"]
+|===
+|Date |Change |Where
+
+|2026-11-17
+|The baseline. The book is set up, with four opening chapters, a section for each of the thirty-nine skills of version 1.1 of the blueprint, and the appendices. Every section is a sketch. Drafted by an AI assistant from public sources and the author's outline, as the colophon says, and not reviewed line by line.
+On 2026-11-18, before the baseline was tagged, a section on what an evaluation produces was added to it: results as frames of the roadmap's document nano-model, shown as charts and tables to people and as Markdown tables or JSON to agents, and a cost-benefit chart with more than two goals. Both ideas are the author's from before the preparation; the cost-benefit chart is from 2012.
+|All
+|===

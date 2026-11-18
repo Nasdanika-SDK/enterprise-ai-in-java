@@ -1,0 +1,46 @@
+[#stakeholders-lifecycle]
+== Stakeholder Communication and Lifecycle Management
+
+The sixth domain has three skills, and each is the review of a document: notes and a draft service level agreement, a decision record, a handoff package.
+In each the architect looks for what is missing or cannot be kept.
+
+The SDK's view of documents is the enterprise model's: a document is a view whose sections are representations, and a view is for a stakeholder with a concern.
+A document generated from a model and a document written by hand are the same kind of thing.
+So the question this chapter asks of each skill is how much of the document can be generated from what the system is, since that part cannot be missing and cannot be stale.
+
+[#skill-unsupportable-commitments]
+=== Unsupportable Commitments in Requirements and SLAs
+
+[horizontal]
+Asks:: In discovery notes or a draft service level agreement, to find a commitment that the proposed architecture cannot meet, and to say which clarification of the requirement or which change of the architecture resolves it.
+Concerns:: {c-plain}, {c-what}, {c-decisions}
+Have:: [.available]#AVAILABLE# Meta, for the terms of an agreement as a vocabulary that a business reader checks in a glossary. Telemetry from which a service level is measured and not asserted. [.sketch]#SKETCH# The enterprise nano-model, in which who is shown what, in what format, is written down.
+Missing:: [.planned]#PLANNED# Bindings with quality attributes, response time, cost and availability, including what is known ahead. Reactive graphs that roll such attributes up an architecture.
+To show:: A service level stated as a model: the measure, the limit, and the element of the architecture it is about. A graph that rolls the latency and availability of the elements up to the entry point, so that a commitment tighter than the sum of what it stands on is reported before it is signed. A draft that promises what the model's provider does not is then a finding of the build.
+
+[#skill-decision-records]
+=== Architecture Decision Records
+
+[horizontal]
+Asks:: To judge a draft decision record against a stakeholder's constraint that it does not address, and to choose the revision that makes the trade-off and the remaining risk explicit without overstating certainty about how a model behaves.
+Concerns:: {c-decisions}, {c-ownership}, {c-plain}
+Have:: Before the SDK: decision analysis and decision binding. The second records which alternative was committed to which variation point, by whom, and based on what analysis, as "decision records that cannot drift from what they decide". In the architecture repository template: decision records, and evaluations by the analytic hierarchy process, published as pages.
+Missing:: [.planned]#PLANNED# Both models on the SDK. An alternative that is a kind from a catalog, so that the decision and the catalog refer to the same thing. Judgments that are measurements.
+To show:: A decision record generated from a decision model: context, alternatives, criteria, judgments, the choice. A stakeholder's constraint is a criterion, so a record that does not address it has a criterion with no judgments, which a check finds. A statement about model behavior in the record is a measurement with the size of its sample and its date, and it is linked to the evaluation run it came from.
+
+The roadmap describes what goes wrong without this: most decisions are remembered as their outcome, the reasons leave with the people, and a year later nobody can say whether the reasons still hold.
+"Without overstating certainty" is easier to keep when the record holds a measured rate than when it holds a sentence.
+
+[#skill-handoff-completeness]
+=== Operational Handoff Completeness
+
+[horizontal]
+Asks:: In a handoff package for a system entering operation, to find the missing assumption, dependency or element of the runbook that would block the receiving team, and to name the documentation that closes the gap.
+Concerns:: {c-ownership}, {c-plain}, {c-assistants}, {c-telemetry}
+Have:: [.available]#AVAILABLE# Documentation as structure in the core model. The JVM model, of what a Java virtual machine can name: modules, packages, types. [.sketch]#SKETCH# Views rendered as Markdown. The enterprise nano-model.
+Missing:: [.planned]#PLANNED# Generated documentation of metamodels and diagrams, the highest priority of the runtime's next release, with stubs of hand-written text for each element and a report of elements that have none. The inference catalog, for the model in use and its retirement date. The tool and MCP models, for what the system depends on and who owns it.
+To show:: A handoff package generated from the system's own models: its components and their owners, its dependencies with versions and dates, its tools, the limits it was sized for. A report of what is missing, in the way the planned stub commands report elements with no documentation: a dependency with no owner, a failure with no runbook entry. The package in Markdown as well, since the roadmap's own test of documentation is that an assistant given it answers a question it could not answer from the picture.
+
+A handoff is the place where the two ends of the runtime's "humans at both ends" meet.
+At one end is intent: what the system is. At the other is assurance: what it did.
+A receiving team that has both as models can ask instead of phoning the architect.

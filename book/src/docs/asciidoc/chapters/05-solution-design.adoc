@@ -1,0 +1,73 @@
+[#solution-design]
+== Solution Design and Architecture
+
+The first domain of the blueprint is where the architect decides what the system is: which work goes to a model, in what pattern, on what platform, and for what value.
+It is the domain closest to the premise of this book, since every one of its skills produces a "what", and the question for the SDK is whether that what can be an artifact.
+
+[#skill-task-delegation]
+=== Task Delegation Between Claude and Humans
+
+[horizontal]
+Asks:: For a business process that is described, to say which steps go to the model, which stay with people, and which are done together, and to justify each by whether the step can be undone, what an error costs, and who answers for it.
+Concerns:: {c-what}, {c-ownership}, {c-plain}
+Have:: [.available]#AVAILABLE# Diagrams as models, with a Java API and properties on every element. [.sketch]#SKETCH# The target state of the roadmap: a process is a diagram, each step has typed inputs and outputs, an owner and roles, and a participant of a process may be an agent. The process names the activity and not who does it, so the same step can be done by people in one deployment and by an agent in another.
+Missing:: [.planned]#PLANNED# Ownership from the role nano-model. Generated documentation of a diagram, element by element. A vocabulary for the three properties the skill names, so that "irreversible" is a property of a step and not a sentence in a document.
+To show:: One process drawn in Draw.io, each step marked with who does it and with its reversibility, stakes and accountable role. A check in the build that refuses a step that is irreversible, delegated to an agent, and has no approval before it. The table of assignments generated from the diagram, for the business owner to read.
+
+The roadmap's observation applies here: a person handed a vague step asks a colleague, and an agent has only what the step says.
+Typed payloads and documentation for each element are good practice for a process that people run, and they are the specification of a step that an agent runs.
+
+[#skill-architecture-evaluation]
+=== End-to-End Architecture Evaluation
+
+[horizontal]
+Asks:: To judge whether a proposed architecture, from input through processing and output to feedback, meets stated requirements for scale, maintainability and access control, and to find the component that fails first under a given load or a given condition of trust.
+Concerns:: {c-what}, {c-telemetry}, {c-plain}
+Have:: [.available]#AVAILABLE# Diagrams as models, so an architecture can be traversed, queried and checked by code. Telemetry in every module, so the same picture can later be colored with what ran.
+Missing:: [.planned]#PLANNED# Reactive compute graphs: processors connected along the dependencies of a model, whose first practical use is arithmetic in the nodes, such as cost rolled up and risk carried along dependencies. Status on diagrams from live telemetry.
+To show:: An architecture diagram whose elements carry a capacity and a trust level. A graph over it that propagates a load from the entry point and reports the first element whose capacity is exceeded, and that reports each place where content of low trust reaches an element with a privileged tool. The incumbent for this calculation is a spreadsheet, which is a reactive graph that nobody can review.
+
+[#skill-pattern-selection]
+=== Architectural Pattern Selection
+
+[horizontal]
+Asks:: To choose among workflow, agentic, augmented-LLM and Skills-based patterns for a use case with stated constraints on reuse, governance and risk, and to justify what the chosen pattern leaves to the model.
+Concerns:: {c-decisions}, {c-bounds}, {c-what}
+Have:: [.sketch]#SKETCH# Waypoints, which carry an execution through a structure whether the structure fixes the path, as a workflow does, or the path is chosen at each step, as an agent does. Before the SDK: decision analysis models, and in the architecture repository template, decision records with evaluations by the analytic hierarchy process.
+Missing:: [.planned]#PLANNED# The decision models on the SDK. Executable graphs, in which a workflow is a diagram that runs as drawn and an agent is one of its activities.
+To show:: The choice of pattern as a decision with the four patterns as alternatives and reuse, governance and risk as criteria, published with its judgments. Then the same task twice, as a fixed graph and as an agentic activity, with the traces side by side, so that the delegation boundary is something a reader can see: which decisions appear as edges of the diagram and which appear only in the trace.
+
+[#skill-orchestrator-decomposition]
+=== Orchestrator and Subagent Decomposition
+
+[horizontal]
+Asks:: To judge a proposed split of a multi-step workload into an orchestrator and subagents against requirements for observability and error recovery, and to find where its task boundaries, its control flow or its synthesis of results will fail.
+Concerns:: {c-telemetry}, {c-bounds}
+Have:: [.sketch]#SKETCH# Waypoints. A step forward is a child span, a join of several lines of work is a span that links to the others, and the tree of waypoints is the tree of spans. Rollback, retry and join are questions asked of the history. [.available]#AVAILABLE# Telemetry as a model, so that a run is loaded and navigated and not searched as text.
+Missing:: [.planned]#PLANNED# The agent model on the SDK, running on waypoints. Inference.
+To show:: An orchestrator and three workers on waypoints with stand-in workers, one of which fails. The join shows what the orchestrator received from each line, and the test asserts that the gap is reported and not synthesized over. The observability requirement is then met by construction, since a worker's work cannot happen outside a span.
+
+[#skill-value-based-decisions]
+=== Value-Based Architectural Decisions
+
+[horizontal]
+Asks:: To choose the option with the largest measurable business outcome under a ceiling on cost or a service level, weighing competing proposals against pillars of value such as efficiency, transformation, productivity, cost and performance.
+Concerns:: {c-decisions}, {c-plain}, {c-light}
+Have:: Before the SDK: decision analysis, with several criteria, several experts and several alternatives, as direct weights and as pairwise comparisons. The roadmap's "decisions that can be revisited": a choice that costs money is a decision with alternatives, criteria and the judgments of those who decided.
+Missing:: [.planned]#PLANNED# The decision models on the SDK. Bindings that provide capabilities with cost and response time as attributes, so that the judgments of a decision can be what was observed.
+To show:: A decision whose criteria are the value pillars and whose ceiling is a constraint that removes alternatives before any are weighed. The judgments on cost and latency come from test runs and not from opinion. The published decision is a page a budget owner can read, and it is recomputed when a price changes.
+
+[#skill-deployment-surface]
+=== Deployment Surface and Agent Runtime Selection
+
+[horizontal]
+Asks:: To choose where the model is reached, the vendor's own API or one of three cloud platforms, and where the agent loop runs, in the firm's own code, in the vendor's harness hosted by the firm, or hosted by the vendor, under constraints of data residency, compliance, model availability and operational ownership.
+Concerns:: {c-change}, {c-local}, {c-decisions}, {c-platform}
+Have:: [.available]#AVAILABLE# The capability framework: a component requests what it needs by requirement and does not construct it by name.
+Missing:: [.planned]#PLANNED# Inference. Its catalog half is exactly this decision as data: which provider, which endpoint, which model, what it costs, when it retires. A provider module for the Anthropic API over the JDK's HTTP client. Providers for the cloud surfaces are not on the roadmap.
+To show:: One agent loop in Java that requests "a chat model that meets this requirement" and is given a different endpoint in each of two deployments, with no change to its code. The surface is then a row in a catalog and a decision record, and moving between surfaces is a configuration change with an evaluation run behind it.
+
+This skill is the most specific to one vendor in the domain, and the SDK has no opinion on which surface is right.
+What it has is a view on the second half of the skill.
+An agent loop that the firm writes in Java, on the platform it already operates, is the first of the three runtimes, and the usual objection to it is the engineering it takes.
+The planned agentic increments of the roadmap are that engineering, done once: a loop with tool calling recorded as a model, a sandbox, sessions that move between providers.

@@ -1,0 +1,102 @@
+[#integration]
+== Integration
+
+The third domain is the largest of the blueprint, and it is where the lens of this book sees most.
+Its skills are about what an agent is connected to, with whose authority, how reliably, and how anyone knows.
+Those are questions of structure, and the SDK's main ideas, a capability requested and not constructed, a tool as a model, telemetry in the foundation, were made for them.
+
+[#skill-least-privilege-tools]
+=== Least-Privilege Tool Configuration
+
+[horizontal]
+Asks:: To judge the tool configuration of an agent or a subagent by least privilege and minimal footprint, and to say which connections to remove, which to narrow, and which to replace with a way of access that costs less context.
+Concerns:: {c-bounds}, {c-ownership}, {c-what}
+Have:: [.available]#AVAILABLE# The capability framework. A requirement can be answered with what is approved in a deployment and refused with a reason, and a listener explains which factories were asked and what each produced.
+Missing:: [.planned]#PLANNED# The tool model, which is useful with no language model in the picture: what a server exposes, who owns each tool, what it costs to call and whether it is approved is a catalog. Tools resolved as capabilities, by id or by description. The role nano-model.
+To show:: An agent's tool set as a model that is compared with what its recorded sessions used. Tools that no session called over a period are candidates to remove, and the comparison is a report and not an inspection. A tool requested by description resolves at run time, so its definition is in the context only when it is needed, which is the access pattern that costs less context.
+
+[#skill-auth-posture]
+=== Authentication and Authorization Posture
+
+[horizontal]
+Asks:: To analyze how an integration design authenticates and authorizes, to find where credentials are exposed and where privileges can escalate, and to give the mitigation for each.
+Concerns:: {c-bounds}, {c-ownership}, {c-local}
+Have:: [.available]#AVAILABLE# Diagrams as models, so identities and trust boundaries can be properties of elements that code checks. The commands planned for serving a volume come, in the runtime book's words, "with safe defaults and token authentication".
+Missing:: [.planned]#PLANNED# The role and IAM nano-models. The tool model with authorization as part of a tool's invocation and not of its description. MCP, with the authorization its specification defines for remote servers. A sanitizer that keeps secrets out of telemetry.
+To show:: An integration diagram in which each connection names the identity it acts with. A check that reports an agent acting with broader rights than the user it serves, and a credential that crosses into an element where a model's context can hold it. The finding is a build failure with the path, in the way the runtime already reports a dependency cycle with its path.
+
+[#skill-binding-constraint]
+=== Relieving the Binding Performance Constraint
+
+[horizontal]
+Asks:: For a system whose dominant constraint is accuracy or latency, to weigh candidate changes to retrieval depth, model tier, caching and call pattern, and to choose the one that relieves the constraint at least cost to the other.
+Concerns:: {c-decisions}, {c-light}, {c-change}
+Have:: [.available]#AVAILABLE# The capability framework, designed for a consumer that drives one assembly after another: request a point in a design space, which is one capability from a stream of them, run the tests, record the results, and move to the next.
+Missing:: [.planned]#PLANNED# Bindings that provide capabilities, with response time and cost as attributes, in which a configuration says which model, which search and which cache are used, and can vary under load to find the Pareto frontier. The decision models, where configurations are the alternatives and what was observed is how they are compared.
+To show:: The four kinds of change as dimensions of a small design space. A test harness that requests each point, runs a fixed set of cases, and records accuracy and latency in telemetry. The result is the frontier, and the answer to the skill is read from it: the point that meets the binding limit and gives up least on the other.
+
+The roadmap puts it in a sentence: some decisions cannot be made at a desk, and which model provider, which cache and which search are best for a system is found by running the alternatives and measuring.
+
+[#skill-instrumentation-gaps]
+=== Instrumentation and Monitoring Gaps
+
+[horizontal]
+Asks:: For a scaled agentic architecture in which a described failure went unseen, to find the gap in instrumentation and to choose the monitoring that would have shown it.
+Concerns:: {c-telemetry}, {c-ownership}
+Have:: [.available]#AVAILABLE# Telemetry is part of the runtime: every module reports through the OpenTelemetry API, and a program with no telemetry code of its own is observable because everything it calls reports. Telemetry is published as it happens, so a test asserts on what the code reported. Telemetry is saved as a model. [.sketch]#SKETCH# Waypoints with spans.
+Missing:: [.planned]#PLANNED# Inference, tools and agents built on the same conventions, so that a model call, a tool call and a subagent each have a span because they could not be written otherwise. Live telemetry in a browser. Status on diagrams.
+To show:: The failure of the skill's scenario as a test: "a tool error is a warning in the span of the call, and the run reports it" is a property that is asserted and stays asserted. The runtime's book makes the point that publishing telemetry changes what is worth testing. Here it means that a gap in instrumentation is a failing test before it is an incident.
+
+This is the skill the SDK was built closest to.
+The runtime's books distinguish operational telemetry, the firehose that answers "is it healthy now", from strategic telemetry, kept deliberately and resolved against models.
+An architect answering this skill needs both: the first to alert, the second to learn afterwards what an agent did and in the course of what work.
+
+[#skill-retrieval-architecture]
+=== Retrieval Architecture Selection
+
+[horizontal]
+Asks:: To choose among a pre-built retrieval pipeline, agentic search with tools, and the whole corpus in context, by the corpus, the pattern of queries, and the limits on latency and cost, and where an index is chosen, to say how chunks are given context and what the system falls back to.
+Concerns:: {c-light}, {c-platform}, {c-assistants}, {c-bounds}
+Have:: [.sketch]#SKETCH# Markdown generated from the same views as everything else, as the overview an assistant reads first. Before the SDK: embeddings from OpenAI and from Ollama, and a vector store on an HNSW library. The roadmap names semantic search as a capability that is requested: "in memory, loaded from disk, or a vector database", and the component gets what the deployment has.
+Missing:: [.planned]#PLANNED# Search as a binding. XPath and a read-only Cypher over models, which are agentic search with tools for a corpus that is a model. Views that bound what an agent sees. A retrieval module on the SDK.
+To show:: A corpus of fifty tool descriptions embedded when the application starts and searched in memory by brute force. Then the same search behind the same request with an approximate index, to find by measurement the size at which the index starts to pay. From the author's outline: an index such as HNSW is likely to hurt on fifty vectors and to be worth it above some threshold, and shortened embeddings of the Matryoshka kind and local embeddings from Ollama are further points in the same space. No vector database is installed for any of it.
+
+The roadmap takes a position on this skill that is worth quoting: an assistant given files guesses at structure, and an assistant given a query language and a bounded view asks.
+Where the corpus is a model, the graph is the source and the text is generated from it, which is the opposite of extracting a graph from text.
+
+[#skill-connection-mechanism]
+=== Connection Mechanism Selection
+
+[horizontal]
+Asks:: To weigh MCP, a direct API or command line, and a handoff to another agent against a scenario's constraints on latency, security and statefulness, and to choose the mechanism those constraints favor.
+Concerns:: {c-change}, {c-what}, {c-ownership}
+Have:: [.available]#AVAILABLE# The capability framework. Commands as capabilities, with a command line model planned in which a command described as data is a tool described in a schema.
+Missing:: [.planned]#PLANNED# The tool model, which separates presentation from invocation: in the process, over a URI, through an MCP server. MCP, server and client on one JSON-RPC core. A provider of tools as capabilities.
+To show:: One tool definition invoked three ways with no change to the agent that calls it: in the JVM, over MCP from the runtime's own server, and as a command. The latency of each is in the trace. The choice of mechanism is then what the roadmap says it is, a decision of deployment that can change.
+
+The roadmap's sentence for this skill: where a tool runs is a decision of deployment, and it changes.
+An agent written against a server breaks when the tool moves into the process, and the other way round. An agent written against a request does not.
+
+[#skill-progressive-discovery]
+=== Progressive Discovery vs. Monolithic Context Loading
+
+[horizontal]
+Asks:: To weigh loading detail when it is needed against loading everything up front, for a task with stated demands on context and tolerance for latency, and to choose the strategy whose economics fit.
+Concerns:: {c-assistants}, {c-bounds}, {c-light}
+Have:: [.sketch]#SKETCH# Markdown overviews from views. [.available]#AVAILABLE# Meta's agent skill, which is itself progressive: instructions an assistant loads when a task calls for them.
+Missing:: [.planned]#PLANNED# The three query surfaces of the roadmap's target state, in its order: an overview in Markdown to get bearings, XPath for navigation and selection, Cypher for questions that cross many relationships. A semantic context, which is the part of a model an agent may see, and no more.
+To show:: The same question about an architecture answered twice: with the whole model's Markdown in the context, and with an overview and a query tool. Tokens, turns and latency for each from the recorded sessions, at three sizes of model.
+
+The roadmap states the general case: a large model does not fit in a context window, and should not be put there.
+
+[#skill-reliability-controls]
+=== Production Reliability Controls
+
+[horizontal]
+Asks:: From error traces or throughput data of a production integration, to find the failure pattern and name the control, among handling of rate limits, retry with backoff, idempotency for tools with side effects, and fallback routing, that addresses it without causing an effect twice.
+Concerns:: {c-telemetry}, {c-bounds}, {c-change}
+Have:: [.available]#AVAILABLE# Telemetry as a model, so traces are data to analyze. [.sketch]#SKETCH# Waypoints, in which retry is a question asked of history: whether a step was already taken can be read and does not have to be remembered. The change nano-model, in which a write is data.
+Missing:: [.planned]#PLANNED# Bindings with availability as an attribute. The roadmap notes that a provider which is offline because it fails is a circuit breaker with no mechanism of its own, since failure is one more reason for the attribute to change. Fallback as a second provider answering the same requirement. Idempotency keys in the tool model.
+To show:: A tool with a side effect called through a wrapper that times out and retries. The change it makes carries an identity, a repeat of the same change is recognized and returns the first result, and the test asserts one effect. Then a provider whose availability attribute drops, and the component that follows to another, with the switch visible in the trace.
+
+An agent that writes with changes and not with free calls has much of this skill by construction: a change is data, it has an identity, and applying it twice can be made to mean applying it once.

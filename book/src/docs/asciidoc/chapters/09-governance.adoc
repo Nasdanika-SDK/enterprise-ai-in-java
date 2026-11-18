@@ -1,0 +1,86 @@
+[#governance]
+== Governance, Safety, and Risk Management
+
+The fifth domain asks where controls sit, what they stop, and what shows that they worked.
+The SDK's position on it is one sentence from the roadmap: agents add no machinery of their own.
+An agent is a participant of a process, an agentic system is a component, and a tool is a capability, and each is described, owned, versioned and resolved by what is already there for people, services and libraries.
+A system that acts on its own needs more of what every component needs, and not something else.
+
+A caution belongs at the head of this chapter.
+The author is an architect and not a specialist in AI governance or in any regulation.
+The sections say what the SDK offers an architect for these skills. They do not say what a regulation requires.
+
+[#skill-guardrail-placement]
+=== Guardrail Placement
+
+[horizontal]
+Asks:: To analyze where guardrails sit in a design against a described path of misuse, and to choose the control that closes the path without degrading a stated legitimate use.
+Concerns:: {c-bounds}, {c-what}, {c-plain}
+Have:: [.available]#AVAILABLE# Diagrams as models: a path through an architecture is something code can follow. The capability framework, which resolves a request in one place, where it can be answered with what is approved and refused with a reason.
+Missing:: [.planned]#PLANNED# The tool model, where a deterministic check belongs to a tool's invocation. Views that bound what an agent sees. Reactive graphs over an architecture.
+To show:: Two paths traced over one architecture diagram, the misuse and the legitimate use, and the first element at which they differ, which is where a control closes one and spares the other. The control is an element of the diagram with an owner, so "where is the guardrail" has an answer that can be pointed at.
+
+[#skill-injection-surface]
+=== Prompt Injection Surface and Controls
+
+[horizontal]
+Asks:: For an architecture whose model context takes in retrieved documents, tool results, responses of MCP servers or third-party Skills, to analyze the surface for injection and to give the controls that keep untrusted content from being treated as instruction.
+Concerns:: {c-bounds}, {c-ownership}, {c-local}
+Have:: [.available]#AVAILABLE# Markers in the core model that say where an element came from. The roadmap's principle that what an agent may see is decided by a view and not by its good behavior.
+Missing:: [.planned]#PLANNED# MCP servers and clients as models, with owners, versions and approval, so that a server is a reviewed component and not an address in a file kept by each developer. The seal nano-model, for signatures. The change model as the command: agents read with queries and write with changes, and a change is shown as a plan and applied after review. Tools over volumes with an overlay as a sandbox.
+To show:: An agent that reads untrusted content and holds no tool that writes. What it produces is a change, which is data: it is validated, shown, and applied by another component after review. An injection can then alter the proposal and cannot act. The design does not depend on the model recognizing the injection.
+
+The roadmap orders the path to agentic work so that this separation comes before autonomy: a read-only query tool first, marked read-only from its first day, and writing through a separate tool that takes changes.
+
+[#skill-risk-ranking]
+=== Risk Assessment and Ranking
+
+[horizontal]
+Asks:: To analyze a proposed deployment for categories of risk, attack surface, failure modes, exhaustion of tokens and quota, and risk from dependencies and the supply chain, and to rank them by exposure.
+Concerns:: {c-decisions}, {c-ownership}, {c-platform}, {c-plain}
+Have:: [.available]#AVAILABLE# A foundation of the JDK, EMF core and the OpenTelemetry API, and a rule that if the JDK can do a thing, the JDK is used. Every dependency that is not taken is a supply-chain risk that is not ranked. Before the SDK: the floors of the model tower for risks, controls and evidence, and decision analysis for ranking.
+Missing:: [.planned]#PLANNED# The tower's risk and control models on the SDK. Reactive graphs that carry risk along dependencies. The waypoint design's loop that works within a budget, in which the spend is the difference between a waypoint's state and its parent's, so that the ledger is auditable by construction. An installer that extends an installation through the mirrors an organization has configured and nothing else.
+To show:: The four categories as criteria and the risks of one deployment as alternatives, ranked with the judgments recorded. A budget of tokens carried in the state of an execution, checked before each step, with the run stopping and reporting when it is spent. The dependency list of the example itself, short enough to print on the page.
+
+On the fourth category the SDK's own design is the example.
+An AI system built on a wide stack of libraries, each with its own releases and its own transitive dependencies, has a supply chain to assess before any model is called.
+
+[#skill-human-checkpoints]
+=== Human-in-the-Loop Checkpoints
+
+[horizontal]
+Asks:: To say where human checkpoints must sit in an agentic workflow that has irreversible or high-stakes actions, and to specify gates that pause the execution without stalling the paths whose risk is acceptable.
+Concerns:: {c-bounds}, {c-ownership}, {c-what}
+Have:: [.sketch]#SKETCH# Waypoints, as the carrier of an execution that can be stopped and continued. The change nano-model: a change is data, so it can be validated, shown and approved before it is applied.
+Missing:: [.planned]#PLANNED# A commit as an escalation, from the waypoint design. When an agent reaches a point that needs a person, it commits a waypoint whose tree is the state of the model and whose message says who is asked, by when, how often to remind, and what to do if nobody answers. Then the process can end. The answer arrives as another commit, made by a person or by a timeout. Also planned: reviewable writes, in which a command tool takes changes, returns a plan, applies and records them.
+To show:: A workflow of several steps in which one is marked irreversible on the diagram. The run pauses at that step only, as a pull request that carries the proposed change, and ends its process. Approval merges it, and the run continues from the commit, in the same trace. The other steps never wait.
+
+The waypoint design adds a point that the skill implies and does not state: requests to people are limited by the people, who say how often they will be asked.
+It calls that back pressure applied to human attention.
+
+[#skill-compliance-controls]
+=== Architectural Controls for Compliance Obligations
+
+[horizontal]
+Asks:: To weigh candidate architectural controls, residency and deployment surface, retention and zero data retention, detection and redaction of personal data, audit logging, and isolation of tenants, against a stated obligation, and to choose the set that evidences it.
+Concerns:: {c-ownership}, {c-local}, {c-telemetry}, {c-plain}
+Have:: [.available]#AVAILABLE# Local first: everything runs where the data is, with no server, which the runtime's book calls the configuration a regulated organization can approve. Telemetry as a model, kept with what it describes: every change to an element during a period, who made it, and in the course of what work, is a query. [.sketch]#SKETCH# Occupancy, for what holds in which jurisdiction and when.
+Missing:: [.planned]#PLANNED# A sanitizer for telemetry: values as they are for a test, masked for production, encrypted or replaced by tokens, chosen by what a value is, from classifications in the model. The tower's models for controls and evidence. Ownership from the role nano-model.
+To show:: One obligation as a model element linked to the control that meets it, the owner of the control, and the evidence: a configuration, a test, a saved trace. A build that fails when an obligation has no control or a control has no evidence. A field classified as personal in a Meta vocabulary, masked in the telemetry of a run with no code at the place where it is logged.
+
+"Evidences" is the word of the skill that the SDK answers most directly.
+Evidence that is a model beside the thing it is evidence of can be found a year later by someone who was not there.
+
+[#skill-bias-source]
+=== Bias Source Identification and Mitigation
+
+[horizontal]
+Asks:: When outputs or a dataset show different results across groups, to weigh the evidence for bias and to choose the mitigation that fits its source, telling bias in the data from bias in how a prompt is framed and bias in how the evaluation was designed.
+Concerns:: {c-decisions}, {c-ownership}
+Have:: [.sketch]#SKETCH# The example nano-model, for sets of cases. [.available]#AVAILABLE# Markers that say where an element came from, so that a case can be traced to its source.
+Missing:: [.planned]#PLANNED# Evaluation sets as models with attributes to segment by. Inference.
+To show:: A set of cases with a group attribute, and its counterfactual twin generated from it: the same cases with only the attribute changed. Results by group for both, in one table. The table separates two of the three sources, and where a case came from, read from its marker, points at the third.
+
+This is the section where the lens sees least.
+Telling a real disparity from noise, and choosing a mitigation, are judgments of statistics and of the domain, and no part of the SDK makes them.
+What it offers is bookkeeping: cases with provenance, and results that can be cut by segment.

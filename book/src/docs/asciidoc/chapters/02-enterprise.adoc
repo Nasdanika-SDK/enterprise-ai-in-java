@@ -1,0 +1,135 @@
+[#enterprise]
+== Enterprise, and What Before How
+
+=== What "enterprise" means here
+
+In the title of this book "enterprise" does not mean large.
+
+The Nasdanika enterprise model defines an enterprise as a group of stakeholders and resources devoted to a mission.
+A bank is one. So is a team of four, a project, or one person with a goal and a laptop.
+Enterprise AI, in that sense, is AI put to a mission with the resources that are at hand.
+
+The definition gives two measures, and they are the measures of everything in this book.
+*Effectiveness* is whether the mission is served: whether the view addresses the concern, whether the system does what it was for.
+*Efficiency* is what that costs: to build, to run, to understand, to change.
+Structure is worth what it adds to either, and no more.
+
+=== Resources that exist, and resources that are made
+
+An AI effort uses resources that exist, and it creates new ones.
+
+The ones that exist are what the organization has: a platform, its people's skills, its approved technologies, its data, its operations.
+Enterprise AI in the sense above starts from them.
+A solution that fits the organization's platform and skills is cheaper to build, to approve and to keep than one that needs its own of everything.
+That is the concern {c-platform}, and it is why this book is about Java.
+
+The new ones are what the effort makes: definitions of tools, prompts, descriptions of agents, catalogs of models, evaluation sets, decisions, records of what ran.
+They did not exist before, so there is a choice about what they are made of.
+
+*New resources are better made with AI and AI governance in mind.*
+In mind from the start, and not added later.
+That means three things of each resource:
+
+* It can be read by a person who has to approve it and by an assistant that has to work with it: it has documentation, in a structure, and a rendering for each reader.
+* It can be governed: it has an owner, a version, and a place in a review.
+* It can be used by a program: it has types, so that it can be validated, compared with its earlier version, and generated from.
+
+A typed model has those properties by construction.
+In the SDK that means a model in Xcore, or a vocabulary in Meta, which is the same idea in a notation made to be read by people who are not developers.
+
+==== The choice of format, as a decision
+
+"A model is the better fit" is a claim, and a claim of that kind should be a decision that can be looked at.
+This book intends to make it one: an evaluation of the formats in which such a resource can live, by the analytic hierarchy process, with the criteria stated and the judgments recorded.
+
+.Alternatives and criteria of the planned evaluation
+[cols="1,3"]
+|===
+|Alternatives
+|A model in Meta or Xcore. A spreadsheet. A page in a wiki. A YAML or JSON file.
+
+|Criteria for people
+|Who can read it without training. Who can edit it. How it is reviewed and approved. How a change is seen.
+
+|Criteria for governance
+|Ownership of each element. Versions and releases. Validation before use. An audit trail.
+
+|Criteria for programs and assistants
+|Types. References that are checked. Generation of code, schemas and documentation. How well an assistant is grounded by it.
+
+|Criteria for cost
+|What it costs on the first day. What it costs after a year.
+|===
+
+[.planned]#PLANNED#. No judgments have been made, and the table is not a result.
+An honest evaluation will show the spreadsheet winning where it should: everybody has the tool, and the business already keeps its vocabulary there.
+The SDK's answer to that is not to compete with the spreadsheet. Meta treats it as an input: a vocabulary authored where its owners already work, and read into a model from which everything else is projected.
+
+[#what-before-how]
+=== What before how
+
+The architect's first question is what to build.
+How to build it comes second, and it may be answered by somebody else, or by the same person later, in another frame of mind.
+
+In most organizations the what is a document: a requirements specification, a statement of work, a design in a wiki.
+Somebody reads it and writes code, and from that day the two drift apart.
+
+The SDK's premise is that the what can be a software artifact.
+
+.From what to how
+[cols="2,3,3",options="header"]
+|===
+|The what |As an artifact |How it becomes the how
+
+|What the words mean
+|A vocabulary in Meta
+|Types, schemas and a glossary are projected from it
+
+|What flows through a process
+|A diagram whose steps have typed inputs and outputs
+|It is documented element by element, and it may be executed as drawn
+
+|What can be called
+|A tool model
+|The same definition is presented to a language model and invoked in the process or over MCP
+
+|What an agentic system is
+|A diagram of agents, tools and the capabilities they request
+|Implementations are bound to it where it is deployed
+
+|What was chosen, and why
+|A decision model
+|It refers to the alternatives it chose between, so it cannot drift from them
+
+|What must be seen
+|Telemetry conventions in the foundation
+|Code that follows them is observable with no code of its own
+|===
+
+Some of that is released, some is sketched, and some is planned. <<the-sdk-in-brief>> says which.
+
+Three things turn the left column into the right one.
+
+*Execution.* A model or a diagram is run directly, by processors that give its elements behavior.
+
+*Generation.* Code, schemas and documentation are generated from the artifact, and generated again when it changes.
+
+*Grounded assistance.* An AI assistant writes the rest, grounded in the documentation generated from the same artifacts: Markdown to get its bearings, and queries where a model is too large to read.
+
+Where none of the three applies, the least that remains is traceability: what runs can be traced to the element that specified it, and what was specified can be asked whether it runs.
+
+So the what becomes a good deal of the how.
+Building, in this way of working, is to a large extent binding implementations to specifications, and the framework carries the rest: resolution, wiring, telemetry.
+The architect's artifact is not handed over and forgotten. It is part of the system.
+
+That is the claim behind every section of <<part-the-domains>>.
+A section that has only a sketch is a section where the claim has not been shown yet.
+
+ifdef::editor-notes[]
+[IMPORTANT,caption="Editor's note"]
+====
+"Enterprise" as a mission pursued with available resources, existing and new resources, "with AI and AI governance in mind", the evaluation of formats by the analytic hierarchy process, and "what comes first, and it is a different hat" are the author's, from his outline of 2026-11-17.
+The criteria of the evaluation and the table "From what to how" are the assistant's.
+The weights and judgments of the evaluation are to be the author's, and stated as his.
+====
+endif::[]

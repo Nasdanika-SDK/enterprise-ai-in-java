@@ -1,0 +1,56 @@
+[colophon]
+[#colophon]
+== Colophon
+
+*Enterprise AI in Java, Objective by Objective: The AI Architect's Domains Through the Nasdanika SDK*
+
+Edition {revnumber}, built on {revdate}.
+
+This book is published in three formats, and each is rebuilt whenever the book changes:
+
+* a web page, {site-url};
+* a PDF, {pdf-url};
+* an EPUB, {epub-url}.
+
+Its source is at {book-repo} and, as a zip file made from it at each publication, at {sources-url}.
+
+This edition is built on Nasdanika SDK Runtime {runtime-version}.
+
+*Where this edition comes from.*
+
+This edition is the baseline of the book.
+An AI assistant, Claude, drafted it on 2026-11-17 from these sources and no others:
+
+* version 1.1 of the exam guide for the Claude Certified Architect, Professional certification, which Anthropic publishes at {certifications};
+* Anthropic's public documentation and engineering articles;
+* the _Nasdanika SDK Runtime_ book, {runtime-site}, and the _Nasdanika SDK Roadmap_ book, {roadmap-site}, with their repositories;
+* the Nasdanika enterprise model, {enterprise-model}, and the architecture repository template, {architecture-template};
+* the author's outline of what the book is for and which capabilities of the SDK belong in it.
+
+Nothing in it comes from a preparation course, from study notes, or from an exam.
+The author is preparing for the exam as this edition is published, and has not reviewed the edition line by line.
+Later editions will carry what he learns and builds, and they can be compared with this one in the history of the repository.
+
+*What it is not.*
+
+This book is not affiliated with, endorsed by or reviewed by Anthropic.
+It is not an exam preparation guide, and it has no exam questions in it.
+The names of the domains and of the skills in <<part-the-domains>> are those of Anthropic's exam guide, used to say what each section is about.
+What each skill asks is given in this book's own words. The exam guide is the authority on its wording, and <<sources>> links to it.
+
+*Licenses.*
+
+Copyright (C) 2026 Pavel Vlasov.
+
+The text and figures of this book are licensed under the https://creativecommons.org/licenses/by/4.0/[Creative Commons Attribution 4.0 International License] (CC BY 4.0).
+You may share and adapt them for any purpose, commercial purposes included, provided you give appropriate credit, provide a link to the license, and indicate if you made changes.
+A suggested credit: "Pavel Vlasov, _Enterprise AI in Java, Objective by Objective_, licensed under CC BY 4.0", with a link to {book-repo}.
+
+The code is licensed under the Eclipse Public License 2.0, the license of the runtime.
+In addition, you may use the code of this book's listings in your own programs and documentation without asking for permission and without attribution.
+
+Neither license covers the Nasdanika name or logo: CC BY 4.0 grants no trademark rights.
+
+Claude, Claude Code and Anthropic are trademarks of Anthropic, PBC. Eclipse, EMF and Xtext are trademarks of the Eclipse Foundation. Java and OpenJDK are trademarks or registered trademarks of Oracle and its affiliates. OpenTelemetry is a project of the Cloud Native Computing Foundation. Spring is a trademark of Broadcom Inc. or its subsidiaries. Other names may be trademarks of their owners. Their use here identifies the technologies the book is about and implies no endorsement.
+
+Typeset with Asciidoctor PDF in Noto Serif, Noto Sans and M+ 1mn.

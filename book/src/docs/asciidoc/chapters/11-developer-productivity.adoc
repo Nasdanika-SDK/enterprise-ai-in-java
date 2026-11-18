@@ -1,0 +1,45 @@
+[#developer-productivity]
+== Developer Productivity and Operational Enablement
+
+The seventh domain is about developers working with an AI coding assistant, and about an organization letting them.
+Two of its three skills are about one vendor's tool: how its workflows are packaged, and how it is configured.
+This book is not a guide to that tool, and those two sections are short.
+
+What the SDK has to say on the domain is from its own practice.
+The runtime was built with an AI assistant, and its book has a chapter on how: who decides what, how the work flows, and what the assistant does not do.
+
+[#skill-packaging-workflows]
+=== Packaging and Distributing Claude Code Workflows
+
+[horizontal]
+Asks:: To judge how a workflow of an AI coding assistant that was proven on one team is packaged and distributed across an organization, as a plugin with skills, hooks, subagents, commands and server configuration, through a marketplace and managed settings, and to decide which controls are enforced centrally and which are left to teams, so that the workflow stays safe when it runs unattended.
+Concerns:: {c-assistants}, {c-ownership}, {c-platform}
+Have:: [.available]#AVAILABLE# One packaged workflow in the runtime's repository: the agent skill `nasdanika-meta`, with instructions, tested examples and a starter project whose whole build is one test. The runtime's tests check what an assistant learns from the skill, and do not test an assistant. The roadmap repository carries an `AGENTS.md` that tells an assistant how the repository is laid out and what its conventions are, and so does the repository of this book.
+Missing:: Distribution of such skills as a plugin from a catalog. [.planned]#PLANNED# The books in the IDE: an extension that brings the books of the installed version into the editor, where an assistant can read them too.
+To show:: The Meta skill packaged for distribution, with a deterministic check beside it: the validator runs in the build and stops a broken vocabulary from being merged, whatever the assistant was told. That is the general shape of this skill's answer: what keeps an unattended run safe is a check that does not depend on the assistant, and what a team prefers is guidance.
+
+[#skill-agent-sdk-configuration]
+=== Agent SDK and Claude Code Configuration
+
+[horizontal]
+Asks:: To configure the vendor's agent SDK or its coding assistant, by permission modes, hooks, definitions of subagents, and operation without a terminal or in a pipeline, to support a team's workflow within stated guardrails for safety and automation.
+Concerns:: {c-bounds}, {c-assistants}
+Have:: [.available]#AVAILABLE# The same artifact on a laptop, in a container and in a pipeline. A launcher that continues a trace it is handed, so that a step of a pipeline and the work done in it are one trace.
+Missing:: Nothing in the SDK configures that tool, and nothing is planned to.
+To show:: An unattended pipeline step in which the assistant works on a Nasdanika model through the planned tools: it reads with queries, proposes changes, and a deterministic validation in the build decides whether they stand. The guardrail is in the build and in the tool, and the permission configuration of the assistant is a second line and not the only one.
+
+The SDK's own agentic increments are, in part, the general form of what this skill configures in one product: a sandbox as an overlay over a read-only base, writes reviewed as a difference before they are committed, and tools marked read-only.
+
+[#skill-accountability-ai-code]
+=== Accountability for AI-Generated Code
+
+[horizontal]
+Asks:: To analyze the review and accountability process of a team that adopts AI-assisted development, and to identify the control that keeps human ownership of code that an AI generated.
+Concerns:: {c-ownership}, {c-telemetry}, {c-assistants}
+Have:: [.available]#AVAILABLE# Markers in the core model that say where an element came from. Telemetry as a model with changes recorded in the spans that made them, of which the runtime's book says: an agent's run is a trace whose spans are its tool calls, the changes it made to models are in the spans that made them, and reverting it means applying the changes in reverse. The practice described in the runtime book's chapter on building with an assistant, including a list of what the assistant does not do.
+Missing:: [.planned]#PLANNED# Provenance as an agentic increment: every element an agent produced says which turn and which model produced it, in its markers. State in Git, with a reply approved in a pull request. Signatures from the seal nano-model.
+To show:: A model changed by an agent in which each changed element carries its provenance, and the change reaches the main line only as a pull request merged by a named person. The record of who answers for it is the merge. The record of what the agent did is the trace, kept with the commit.
+
+The principle is the one the runtime's book calls humans at both ends.
+AI takes the middle of the line from intent to operation, writing and testing, and pushes people to the two ends: deciding what things are, and knowing what the system did.
+Ownership of generated code is held at those two ends, by the person who stated the intent and the person who accepted the evidence, and a process that leaves neither end to a person has given the ownership away.

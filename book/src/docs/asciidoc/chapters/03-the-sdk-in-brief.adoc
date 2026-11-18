@@ -1,0 +1,125 @@
+[#the-sdk-in-brief]
+== The SDK in Brief
+
+This chapter is the second semantic domain on a few pages: the parts of the Nasdanika SDK that the rest of the book draws on, and how real each is.
+It summarizes two books, and they are the authority: the {sdk-book}[_Nasdanika SDK Runtime_] for what is released, and the {roadmap-site}[_Nasdanika SDK Roadmap_] for what is sketched and planned.
+<<capabilities>> lists every capability named in this book with its standing.
+
+=== The foundation
+
+The runtime is Java 25 with modules, built with Maven and released as one unit with a calendar version.
+Its foundation is three things: the JDK, EMF core, and the OpenTelemetry API.
+The runtime's own rule is that if the JDK can do a thing, the JDK is used, and that is why the planned model providers are modules over the JDK's HTTP client and not over a vendor's library.
+
+Everything runs on a laptop, in a container and in a CI pipeline as the same artifact.
+There is no server to install.
+Models are files in Git and artifacts in Maven repositories.
+
+=== Released
+
+[.available]#AVAILABLE# in runtime {runtime-version}.
+
+The capability framework::
+A requirement is a type, possibly generic, with optional payloads.
+Capability factories interpret requirements, and may raise requirements of their own while satisfying one.
+A loader resolves the whole graph, once for each requirement, and reports a cycle with its path.
+A provider may carry information about what it provides, so that a caller can choose between providers without subscribing to them.
+This is how the SDK answers "give me what I need" without the one who asks knowing who provides it, and it is the mechanism most sections of this book lean on.
+
+Telemetry::
+Every runtime module reports what it does through the OpenTelemetry API.
+Spans are for operations and log records for what happens in them.
+There is one OpenTelemetry instance for each unit of work, a command, a request or a test, made current the way a span is.
+Telemetry is published as it happens, so a console, a test or a browser subscribes to the same signals an exporter receives, and a test can assert on what the code reported.
+
+Telemetry as a model::
+Traces, logs and metrics are saved as models, in files beside what they describe.
+Changes to a model are recorded in the span that made them.
+The runtime's books call this strategic telemetry: collected deliberately and kept, so that "who changed what, in the course of what work" has an answer years later.
+
+Meta::
+A language-neutral type system of about twenty classifiers, with a text syntax, a validator, and a glossary generated for people who do not read the notation.
+An agent skill, `nasdanika-meta`, teaches an AI assistant to draft a vocabulary with a subject-matter expert: the validator judges structure, and the expert judges meaning.
+
+Diagrams::
+Draw.io documents as a Java API and as a model, rendered with Draw.io's own viewer. A common diagram model, and layout with ELK. A diagram is a source and not a picture.
+
+Volumes::
+A small file system interface over directories and other sources, served over HTTP and WebDAV, and used by EMF to load resources.
+
+Flows::
+`java.util.concurrent.Flow` with a pump and a transformer. No reactive library.
+
+Commands::
+Commands contributed as capabilities and wired by generic type, with a launcher that gives each run its own telemetry and saves it.
+
+The core model::
+Identity, documentation as structure and not as a string, and markers that say where an element came from.
+
+=== Sketched
+
+[.sketch]#SKETCH# in the roadmap repository: built on the released runtime and tested with every build, and not settled.
+
+Waypoints::
+The history of an execution as it advances through a structure: where it is, how it got there, what it carries, and which span covers it.
+Rollback, retry and join are questions asked of that history.
+An agent's work is one of the structures it was made for.
+
+Bindings::
+Values that are read now and followed as they change.
+
+The enterprise nano-model::
+Stakeholders, concerns, viewpoints, formats and channels as types, with a test that computes what can be sent to whom. <<a-view-for-the-ai-architect>> used its vocabulary.
+
+Other nano-models::
+Change, which makes a write into data that can be validated and approved before it is applied. Kind and occupancy, for catalogs and for variation by place and time. Example, for examples that serve as few-shot prompts, as test cases and as replays. Document, with frames of data that tables and charts share. Chart, with a writer to SVG.
+
+Widgets::
+Views written once against kinds and rendered as Markdown, for assistants, and on a terminal.
+
+=== Planned
+
+[.planned]#PLANNED#. Designed, some of it in detail, and not built on the SDK.
+This is where most of what the blueprint asks for lives, and the reader should weigh the book accordingly.
+
+Inference::
+A model with two halves.
+The catalog is configuration: which provider, which model, which endpoint, what it costs and when it retires.
+The session is what happened: messages, tool calls, token counts and latency, as model objects that are saved, opened in a viewer, kept for audit, and continued with another provider.
+Providers for the Anthropic API and for the OpenAI API, the second of which also covers servers that speak it.
+
+The tool model::
+What can be called, apart from who calls it and how.
+Presentation is how a language model learns of a tool. Invocation is how the call happens: in the process, over a URI, through an MCP server.
+With the two apart, MCP is a transport and not a category.
+
+MCP::
+A server and a client on one JSON-RPC core.
+Servers and clients are models, with documentation and owners, so that an agentic system requests a tool by id or by description and gets it from the capability framework, from the same JVM or over MCP.
+
+Agentic systems as components::
+An agentic system drawn as a diagram, documented, owned, versioned, signed and approved, obtained as a capability, and requesting its language model and its tools as capabilities.
+
+Bindings that provide capabilities::
+A language model, a cache or a search as a binding with response time, cost and availability as attributes, so that a system follows its environment and its configurations can be compared under load.
+
+Queries and reviewable writes::
+XPath and a read-only Cypher for reading models. Writes through changes, shown as a plan and applied after review.
+
+State in Git::
+A commit as a message between the steps of an executable graph, and as an escalation to a person.
+
+Decision models::
+Decision analysis, with criteria, alternatives, experts and pairwise comparisons, and decision binding, which ties a decision to what it decided. They exist as models from before the SDK.
+
+A sanitizer for telemetry::
+Values masked, encrypted or replaced by tokens before they reach logs and telemetry, by what a value is and by the environment.
+
+=== Before the SDK
+
+The SDK is the second generation of Nasdanika.
+The first has public modules for things this book touches: embeddings from OpenAI and from Ollama, a vector store on an HNSW library, chat completions, and an MCP server.
+They are not part of the SDK and this book does not build on them. They are named because they are the experience behind several of the planned items.
+
+Outside the SDK there is also the {architecture-template}[architecture repository template], whose sample is an AI assistant for a bank, with decision records and evaluations by the analytic hierarchy process.
+Several sections point to it as the nearest thing to a worked example that exists today.
